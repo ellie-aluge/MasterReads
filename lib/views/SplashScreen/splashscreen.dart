@@ -25,8 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   bottomRight: Radius.circular(36))),
           child: ClipRRect(
             borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(36),
-                  bottomRight: Radius.circular(36)),
+                bottomLeft: Radius.circular(36),
+                bottomRight: Radius.circular(36)),
             child: Image(
               image: AssetImage('assets/image/pic3.jpg'),
               fit: BoxFit.cover,
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Flexible(
                   child: Text(
-                "Winter Vaction Trips!",
+                "Winter Vacation Trips!",
                 maxLines: 2,
                 overflow: TextOverflow.clip,
                 style: appTheme.textTheme.headline1,
@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       elevation: 0,
                       textStyle: TextStyle(
                           fontSize: 18,
-                          fontFamily: 'PlayFair',
+                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold)),
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:travelappui/routes/routes.dart';
 import 'package:travelappui/components/appbar.dart';
 import 'package:travelappui/components/featuredcard.dart';
 import 'package:travelappui/components/travelplacedart.dart';
@@ -183,7 +184,9 @@ class _HomePageState extends State<HomePage> {
                                       size: 36,
                                       color: kAppTheme.accentColor
                                           .withOpacity(0.35)),
-                                  onPressed: () {})
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, AppRoutes.ROUTE_Login);
+                                    })
                             ],
                           ),
                         ),
