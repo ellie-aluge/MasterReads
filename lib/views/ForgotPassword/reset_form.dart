@@ -7,6 +7,7 @@ class ResetForm extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child: TextFormField(
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
             hintText: 'Email',
             hintStyle: TextStyle(color: kTextFieldColor, fontFamily: 'Poppins'),
