@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/login/login_option.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -14,7 +16,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
-
+  final auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +48,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                        email = value;
+                      },
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
@@ -69,6 +77,9 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       maxLines: 1,
                       obscureText: true,
+                      onChanged: (value) {
+                        password = value;
+                      },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         hintText: 'Enter your password',
@@ -97,8 +108,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await auth.signInWithEmailAndPassword(email: email, password: password);
+                          await Navigator.of(context).push(MaterialPageRoute(builder: ((context) => MyApp())));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
@@ -149,7 +163,6 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              
             ],
           ),
         ),

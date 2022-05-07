@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);
@@ -13,6 +14,9 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
+  final auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +98,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                                email = value.toString().trim();
+                              },
                       maxLines: 1,
                       decoration: InputDecoration(
                         hintText: 'Enter your email',
@@ -116,6 +124,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       maxLines: 1,
                       obscureText: true,
+                      onChanged: (value) {
+                                password = value;
+                              },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         hintText: 'Enter your password',
@@ -129,8 +140,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                      onPressed: () async{
+                        if (_formKey.currentState!.validate()) {
+                          await auth.createUserWithEmailAndPassword(email: email, password: password);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
