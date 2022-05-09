@@ -87,10 +87,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     'Not registered yet?',
                     style: TextStyle(fontFamily: 'Poppins'),
                   ),
-                  TextButton(
+                  TextButton (
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.routeSignUp);
                     },
+
                     child: const Text(
                       'Create an account',
                       style: TextStyle(fontFamily: 'Poppins'),
@@ -105,6 +106,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.routeLogin);
                     },
+
                     child: const Text(
                       'Back to Log In',
                       style: TextStyle(fontFamily: 'Poppins'),

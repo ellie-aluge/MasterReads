@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:masterreads/views/home/home.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);
@@ -15,6 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
   final auth = FirebaseAuth.instance;
+  final AuthService _auth= AuthService();
   String email = '';
   String password = '';
 
@@ -97,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
-                          : "Please enter a valid email",
+                          :   "Please enter a valid email",
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
                                 email = value.toString().trim();
@@ -117,9 +120,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextFormField(
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                        if (value == null || value.isEmpty||value.length<8) {
+                          return 'Please enter a strong password with minimum 8 characters';
                         }
+                        else
                         return null;
                       },
                       maxLines: 1,
@@ -141,9 +145,45 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     ElevatedButton(
                       onPressed: () async{
-                        if (_formKey.currentState!.validate()) {
-                          await auth.createUserWithEmailAndPassword(email: email, password: password);
+                        if (_formKey.currentState!.validate())
+                        {
+
+                          dynamic result= await _auth.RegisterWithEmail(email, password);
+                          if(result==null)
+                            {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Oops'),
+                                      content: const Text('This user Already Exists, kindly log into your account.'),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          child: Text('Ok'),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => RegisterPage(title: "login"),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                            }
+
+
                         }
+
+                        // else
+                        //   {
+                        //     dynamic result= await _auth.RegisterWithEmail(email, password);
+                        //   }
+
+
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
@@ -186,4 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+
 }
+
