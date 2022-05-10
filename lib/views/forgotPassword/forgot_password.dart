@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/theme.dart';
@@ -9,6 +10,8 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  late String _email;
+  final auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -55,13 +58,39 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _email = value;
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 40,
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          auth.sendPasswordResetEmail(email: _email);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Email Sent!'),
+                                content: const Text(
+                                    'Reset password link has been sent to your email. \nCheck your inbox or spam folder'),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    child: const Text('Ok'),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, AppRoutes.routeLogin);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       child: Text(
                         'Reset Password',
@@ -87,11 +116,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     'Not registered yet?',
                     style: TextStyle(fontFamily: 'Poppins'),
                   ),
-                  TextButton (
+                  TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.routeSignUp);
                     },
-
                     child: const Text(
                       'Create an account',
                       style: TextStyle(fontFamily: 'Poppins'),
@@ -106,7 +134,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.routeLogin);
                     },
-
                     child: const Text(
                       'Back to Log In',
                       style: TextStyle(fontFamily: 'Poppins'),
