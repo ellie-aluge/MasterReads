@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:masterreads/views/home/home.dart';
+import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/profilePage.dart';
 
 class RegisterPage extends StatefulWidget {

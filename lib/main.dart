@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/routes/routes.dart';
+import 'package:masterreads/views/home/welcomePage.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

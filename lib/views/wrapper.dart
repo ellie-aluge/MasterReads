@@ -1,6 +1,6 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
-// import 'package:masterreads/views/home/home.dart';
+// import 'package:masterreads/views/home/welcomePage.dart';
 // import 'package:masterreads/views/login/login_screen.dart';
 // import 'package:provider/provider.dart';
 // class Wrapper extends StatelessWidget {

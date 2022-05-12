@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:masterreads/models/eUser.dart';
-import 'package:masterreads/views/home/home.dart';
+import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/profilePage.dart';
 import 'package:masterreads/views/signUp/register_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 import '../views/login/login_screen.dart';
@@ -14,9 +15,11 @@ import '../views/login/login_screen.dart';
 class AuthService{
   final FirebaseAuth _auth= FirebaseAuth.instance;
   final signup= const RegisterPage(title:"signup");
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   //Auth change user stream
   Stream<User?> get eUser{
     return _auth.authStateChanges();
+
 
   }
 
@@ -73,6 +76,30 @@ Future RegisterWithEmail  (String email, String password, final firstNameControl
   }
 
 
+  Future<User?> signInWithGoogle() async {
+    // final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleUser = (await _googleSignIn.signInOption) as GoogleSignInAccount?;
+    final GoogleSignInAuthentication? googleAuth =
+    await googleUser?.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    final User? user =
+        (await _auth.signInWithCredential(credential)).user;
+    print("signed in ");
+    return user;
+  }
+  Future<eUserModel> getUser() async {
+    var User = await _auth.currentUser;
+    return eUserModel();
+
+
+  }
+
+
 
   postDetailsToFirestore(final firstNameController, final secondNameController) async {
     // calling our firestore
@@ -91,7 +118,9 @@ Future RegisterWithEmail  (String email, String password, final firstNameControl
     userModel.firstName = firstNameController.text;
     userModel.secondName = secondNameController.text;
 
-    await firebaseFirestore
+    var firebaseuser= await FirebaseAuth.instance.currentUser;
+    // await firebaseFirestore
+    FirebaseFirestore.instance
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());

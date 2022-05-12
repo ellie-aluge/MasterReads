@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+import 'package:masterreads/Service/authentication.dart';
+import 'package:masterreads/main.dart';
+import 'package:masterreads/routes/routes.dart';
+import 'package:masterreads/views/login/login_option.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginOption extends StatelessWidget {
   const LoginOption({Key? key}) : super(key: key);
@@ -8,23 +15,24 @@ class LoginOption extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: const [
-        BuildButton(
-          iconImage: Image(
-            height: 20,
-            width: 20,
-            image: AssetImage('assets/images/facebook.png'),
-          ),
-          textButton: 'Facebook',
-        ),
+
         BuildButton(
           iconImage: Image(
             height: 20,
             width: 20,
             image: AssetImage('assets/images/google.png'),
           ),
+
           textButton: 'Google',
+          // onP
+
+
         ),
-      ],
+
+
+
+
+    ],
     );
   }
 }
