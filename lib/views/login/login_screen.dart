@@ -5,6 +5,7 @@ import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/login/login_option.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:masterreads/views/profilePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -151,7 +152,15 @@ class _LoginPageState extends State<LoginPage> {
                           }
 
                           else
-                            print ("success");
+                            {
+                              print ("success");
+                              Navigator.pushAndRemoveUntil(
+                                  (context),
+
+                                  MaterialPageRoute(builder: (context) => profilepage(title: "Profile Page")),
+                                      (route) => false);
+                            }
+
                         }
                       },
                       style: ElevatedButton.styleFrom(
