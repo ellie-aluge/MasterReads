@@ -4,6 +4,7 @@ import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:masterreads/views/home/home.dart';
+import 'package:masterreads/views/profilePage.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);
@@ -17,6 +18,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
   final auth = FirebaseAuth.instance;
+  final firstNameControl= new TextEditingController();
+  final secondNameControl= new TextEditingController();
   final AuthService _auth= AuthService();
   String email = '';
   String password = '';
@@ -53,6 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            controller: firstNameControl,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your first name';
@@ -75,6 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            controller: secondNameControl,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your last name';
@@ -148,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (_formKey.currentState!.validate())
                         {
 
-                          dynamic result= await _auth.RegisterWithEmail(email, password);
+                          dynamic result= await _auth.RegisterWithEmail(email, password, firstNameControl, secondNameControl);
                           if(result==null)
                             {
                                 showDialog(
@@ -175,8 +180,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
                             }
 
+                          else
+                          {
+                            Navigator.pushAndRemoveUntil(
+                                (context),
+                                MaterialPageRoute(builder: (context) => profilepage(title: "Profile Page")),
+                                    (route) => false);
+                          }
 
                         }
+
+
 
                         // else
                         //   {

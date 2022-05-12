@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:masterreads/models/eUser.dart';
 import 'package:masterreads/views/home/home.dart';
+import 'package:masterreads/views/profilePage.dart';
 import 'package:masterreads/views/signUp/register_screen.dart';
 
 
@@ -20,13 +23,14 @@ class AuthService{
 
 
   //Register with email and password
-Future RegisterWithEmail  (String email, String password) async
+Future RegisterWithEmail  (String email, String password, final firstNameController, final secondNameController) async
 {
-  try{
-  UserCredential credentials= await _auth.createUserWithEmailAndPassword(email: email, password: password);
-  User? ebookUser = credentials.user;
-  return HomePage();
 
+  try {
+    UserCredential credentials = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    User? ebookUser = credentials.user;
+    postDetailsToFirestore(firstNameController, secondNameController);
+    return ebookUser;
 
   }
 
@@ -41,13 +45,15 @@ Future RegisterWithEmail  (String email, String password) async
 
 }
 
+
 //lOGIN WITH EMAIL AND PASSWORD
   Future SignInWithEmail  (String email, String password) async
   {
     try{
       UserCredential credentials= await _auth.signInWithEmailAndPassword(email: email, password: password);
       User? ebookUser = credentials.user;
-      return eUser;
+      return ebookUser;
+
       // return HomePage();
 
 
@@ -67,6 +73,32 @@ Future RegisterWithEmail  (String email, String password) async
   }
 
 
+
+  postDetailsToFirestore(final firstNameController, final secondNameController) async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    eUserModel userModel = eUserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = firstNameController.text;
+    userModel.secondName = secondNameController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+
+
+
+  }
+
 }
-
-

@@ -37,6 +37,7 @@ class profile extends State<profilepage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+
         backgroundColor: Colors.deepPurple[200],
         appBar: AppBar(
           centerTitle: true,
@@ -51,6 +52,7 @@ class profile extends State<profilepage> {
         ),
         body: SafeArea(
           child: Column(
+
             children: <Widget>[
               CircleAvatar(
                 radius: 50.0,
