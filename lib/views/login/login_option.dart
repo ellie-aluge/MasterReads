@@ -16,18 +16,18 @@ class LoginOption extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: const [
 
-        BuildButton(
-          iconImage: Image(
-            height: 20,
-            width: 20,
-            image: AssetImage('assets/images/google.png'),
-          ),
-
-          textButton: 'Google',
-          // onP
-
-
-        ),
+        // BuildButton(
+        //   iconImage: Image(
+        //     height: 20,
+        //     width: 20,
+        //     image: AssetImage('assets/images/google.png'),
+        //   ),
+        //
+        //   textButton: 'Google',
+        //   // onP
+        //
+        //
+        // ),
 
 
 
