@@ -1,10 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:masterreads/views/home/welcomePage.dart';
-import 'package:masterreads/views/profilePage.dart';
+import 'package:masterreads/views/user/profilePage.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);
@@ -182,10 +183,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
                           else
                           {
-                            Navigator.pushAndRemoveUntil(
-                                (context),
-                                MaterialPageRoute(builder: (context) => profilepage(title: "Profile Page")),
-                                    (route) => false);
+                            SchedulerBinding.instance.addPostFrameCallback((_) {
+                              Navigator.of(context)
+                                  .pushNamed(AppRoutes.routeProfilePage);
+                            });
                           }
 
                         }

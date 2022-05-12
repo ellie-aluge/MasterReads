@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:masterreads/models/eUser.dart';
 import 'package:masterreads/views/home/welcomePage.dart';
-import 'package:masterreads/views/profilePage.dart';
+import 'package:masterreads/views/user/profilePage.dart';
 import 'package:masterreads/views/signUp/register_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
