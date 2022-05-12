@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
@@ -17,11 +18,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
-  String email='', password= '';
-  final auth= FirebaseAuth.instance;
-  final AuthService _auth= AuthService();
-
-
+  String email = '', password = '';
+  final auth = FirebaseAuth.instance;
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                       onChanged: (value) {
                         email = value;
                       },
-                      validator: (value) =>
-                      EmailValidator.validate(value!)
+                      validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
                       maxLines: 1,
@@ -101,10 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       contentPadding: EdgeInsets.zero,
                       value: rememberValue,
-                      activeColor: Theme
-                          .of(context)
-                          .colorScheme
-                          .primary,
+                      activeColor: Theme.of(context).colorScheme.primary,
                       onChanged: (newValue) {
                         setState(() {
                           rememberValue = newValue!;
@@ -118,7 +113,8 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          dynamic result = await _auth.SignInWithEmail(email, password);
+                          dynamic result =
+                              await _auth.SignInWithEmail(email, password);
                           if (result == null) {
                             showDialog(
                               context: context,
@@ -126,8 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return AlertDialog(
                                   title: Text('Login Error'),
                                   content: const Text(
-                                      'The user credentials entered are not correct. \nEnsure you enter the correct details'
-                                          ),
+                                      'The user credentials entered are not correct. \nEnsure you enter the correct details'),
                                   actions: <Widget>[
                                     ElevatedButton(
                                       child: const Text('Ok'),
@@ -136,7 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                            const LoginPage(title: "Log in"),
+                                                const LoginPage(
+                                                    title: "Log in"),
                                           ),
                                         );
                                       },
@@ -145,10 +141,12 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               },
                             );
+                          } else {
+                            SchedulerBinding.instance.addPostFrameCallback((_) {
+                              Navigator.of(context)
+                                  .pushNamed(AppRoutes.routeProfilePage);
+                            });
                           }
-
-                          else
-                            print ("success");
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -171,7 +169,6 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushNamed(
                                 context, AppRoutes.routeForgotPassword);
                           },
-
                           child: const Text(
                             'Forgot password?',
                             style: TextStyle(fontFamily: 'Poppins'),
@@ -207,9 +204,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
-  }
-
-
-
+}
