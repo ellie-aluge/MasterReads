@@ -3,109 +3,88 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:masterreads/models/eUser.dart';
+import 'package:masterreads/models/users.dart';
 import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/user/profilePage.dart';
 import 'package:masterreads/views/signUp/register_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 import '../views/login/login_screen.dart';
 
-class AuthService{
-  final FirebaseAuth _auth= FirebaseAuth.instance;
-  final signup= const RegisterPage(title:"signup");
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final signup = const RegisterPage(title: "signup");
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  late final FirebaseAuth _firebaseAuth;
+
+  AuthService(this._firebaseAuth);
   //Auth change user stream
-  Stream<User?> get eUser{
-    return _auth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-
+  // Auth user sign out
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
-
-
 
   //Register with email and password
-Future RegisterWithEmail  (String email, String password, final firstNameController, final secondNameController) async
-{
-
-  try {
-    UserCredential credentials = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    User? ebookUser = credentials.user;
-    postDetailsToFirestore(firstNameController, secondNameController);
-    return ebookUser;
-
+  // ignore: non_constant_identifier_names
+  Future RegisterWithEmail(String email, String password,
+      final firstNameController, final secondNameController) async {
+    try {
+      UserCredential credentials = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? ebookUser = credentials.user;
+      postDetailsToFirestore(firstNameController, secondNameController);
+      return ebookUser;
+    } catch (e) {
+      print("an error occured");
+      return null;
+    }
   }
-
-
-  catch(e)
-  {
-
-    print( "an error occured");
-    return null;
-  }
-
-
-}
-
 
 //lOGIN WITH EMAIL AND PASSWORD
-  Future SignInWithEmail  (String email, String password) async
-  {
-    try{
-      UserCredential credentials= await _auth.signInWithEmailAndPassword(email: email, password: password);
-      User? ebookUser = credentials.user;
-      return ebookUser;
-
-      // return HomePage();
-
-
+  // ignore: non_constant_identifier_names
+  Future SignInWithEmail(String email, String password) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return "Signed In";
+    } on FirebaseAuthException catch (e) {
+      return Fluttertoast.showToast(
+        msg:
+            "The user credentials entered are not correct. \nEnsure you enter the correct details",
+        toastLength: Toast.LENGTH_LONG,
+      );
     }
-
-
-    catch(e)
-    {
-
-      print (e.toString());
-      return null;
-
-
-    }
-
-
   }
-
 
   Future<User?> signInWithGoogle() async {
     // final GoogleSignIn _googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleUser = (await _googleSignIn.signInOption) as GoogleSignInAccount?;
+    final GoogleSignInAccount? googleUser =
+        (await _googleSignIn.signInOption) as GoogleSignInAccount?;
     final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+        await googleUser?.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
 
-    final User? user =
-        (await _auth.signInWithCredential(credential)).user;
+    final User? user = (await _auth.signInWithCredential(credential)).user;
     print("signed in ");
     return user;
   }
+
   Future<eUserModel> getUser() async {
     var User = await _auth.currentUser;
     return eUserModel();
-
-
   }
 
-
-
-  postDetailsToFirestore(final firstNameController, final secondNameController) async {
+  postDetailsToFirestore(
+      final firstNameController, final secondNameController) async {
     // calling our firestore
     // calling our user model
     // sedning these values
-
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
@@ -118,16 +97,20 @@ Future RegisterWithEmail  (String email, String password, final firstNameControl
     userModel.firstName = firstNameController.text;
     userModel.secondName = secondNameController.text;
 
-    var firebaseuser= await FirebaseAuth.instance.currentUser;
+    var firebaseuser = await FirebaseAuth.instance.currentUser;
     // await firebaseFirestore
     FirebaseFirestore.instance
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
-
-
-
   }
 
+  Future<String> getCurrentUID() async {
+    return (await _auth.currentUser!).uid;
+  }
+
+  Future getAuthUser() async {
+    return await _auth.currentUser;
+  }
 }

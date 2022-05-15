@@ -1,10 +1,23 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/constants/colors.dart';
+import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage>
+    with SingleTickerProviderStateMixin {
+  late String email;
+  late String firstName, secondName;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +48,19 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [],
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            context.read<AuthService>().signOut();
+                          },
+                          child: Text("Sign Out"))
+                    ],
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
-                    'My\nProfile',
+                    'Profile',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -76,13 +95,21 @@ class ProfilePage extends StatelessWidget {
                                     SizedBox(
                                       height: 70,
                                     ),
-                                    Text(
-                                      'John Doe',
-                                      style: TextStyle(
-                                        color: kPrimaryColor,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 30,
-                                      ),
+                                    FutureBuilder(
+                                      future: _fetch(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState !=
+                                            ConnectionState.done)
+                                          return Text("Loading data...");
+                                        return Text(
+                                          '$firstName $secondName',
+                                          style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontFamily: 'Poppins',
+                                            fontSize: 30,
+                                          ),
+                                        );
+                                      },
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -228,5 +255,23 @@ class ProfilePage extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  _fetch() async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser!;
+    if (firebaseUser != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((ds) {
+        email = ds.data()!['email'];
+        firstName = ds.data()!['firstName'];
+        secondName = ds.data()!['secondName'];
+        print(email);
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 }

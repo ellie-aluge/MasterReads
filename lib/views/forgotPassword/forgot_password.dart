@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/theme.dart';
 import 'package:email_validator/email_validator.dart';
@@ -82,8 +83,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   ElevatedButton(
                                     child: const Text('Ok'),
                                     onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, AppRoutes.routeLogin);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              AuthenticationWrapper(),
+                                        ),
+                                      );
                                     },
                                   ),
                                 ],
@@ -132,7 +138,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.routeLogin);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AuthenticationWrapper(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Back to Log In',

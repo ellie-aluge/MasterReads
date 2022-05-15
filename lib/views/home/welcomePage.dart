@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 // import 'package:blur/blur.dart';
@@ -77,7 +78,7 @@ class welcomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginPage(title: "login"),
+                          builder: (context) => AuthenticationWrapper(),
                         ),
                       );
                     },

@@ -7,6 +7,7 @@ import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/login/login_option.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:masterreads/views/user/profilePage.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -21,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   var rememberValue = false;
   String email = '', password = '';
   final auth = FirebaseAuth.instance;
-  final AuthService _auth = AuthService();
+  final AuthService _auth = AuthService(FirebaseAuth.instance);
 
   @override
   Widget build(BuildContext context) {
@@ -114,41 +115,47 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          dynamic result =
-                              await _auth.SignInWithEmail(email, password);
-                          if (result == null) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Login Error'),
-                                  content: const Text(
-                                      'The user credentials entered are not correct. \nEnsure you enter the correct details'),
-                                  actions: <Widget>[
-                                    ElevatedButton(
-                                      child: const Text('Ok'),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginPage(
-                                                    title: "Log in"),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            SchedulerBinding.instance.addPostFrameCallback((_) {
-                              Navigator.of(context)
-                                  .pushNamed(AppRoutes.routeProfilePage);
-                            });
-                          }
+                          context
+                              .read<AuthService>()
+                              .SignInWithEmail(email, password);
                         }
+
+                        // if (_formKey.currentState!.validate()) {
+                        //   dynamic result =
+                        //       await _auth.SignInWithEmail(email, password);
+                        //   if (result == null) {
+                        //     showDialog(
+                        //       context: context,
+                        //       builder: (BuildContext context) {
+                                // return AlertDialog(
+                                //   title: Text('Login Error'),
+                                //   content: const Text(
+                                //       'The user credentials entered are not correct. \nEnsure you enter the correct details'),
+                                //   actions: <Widget>[
+                                //     ElevatedButton(
+                                //       child: const Text('Ok'),
+                                //       onPressed: () {
+                                //         Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 const LoginPage(
+                                //                     title: "Log in"),
+                                //           ),
+                                //         );
+                                //       },
+                                //     ),
+                                //   ],
+                                // );
+                        //       },
+                        //     );
+                        //   } else {
+                        //     SchedulerBinding.instance.addPostFrameCallback((_) {
+                        //       Navigator.of(context)
+                        //           .pushNamed(AppRoutes.routeProfilePage);
+                        //     });
+                        //   }
+                        // }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),

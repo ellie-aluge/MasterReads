@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:masterreads/Service/authentication.dart';
+import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:masterreads/views/home/welcomePage.dart';
@@ -19,9 +20,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
   final auth = FirebaseAuth.instance;
-  final firstNameControl= new TextEditingController();
-  final secondNameControl= new TextEditingController();
-  final AuthService _auth= AuthService();
+  final firstNameControl = TextEditingController();
+  final secondNameControl = TextEditingController();
+  final AuthService _auth = AuthService(FirebaseAuth.instance);
   String email = '';
   String password = '';
 
@@ -106,11 +107,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
-                          :   "Please enter a valid email",
+                          : "Please enter a valid email",
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
-                                email = value.toString().trim();
-                              },
+                        email = value.toString().trim();
+                      },
                       maxLines: 1,
                       decoration: InputDecoration(
                         hintText: 'Enter your email',
@@ -126,17 +127,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextFormField(
                       validator: (value) {
-                        if (value == null || value.isEmpty||value.length<8) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 8) {
                           return 'Please enter a strong password with minimum 8 characters';
-                        }
-                        else
-                        return null;
+                        } else
+                          return null;
                       },
                       maxLines: 1,
                       obscureText: true,
                       onChanged: (value) {
-                                password = value;
-                              },
+                        password = value;
+                      },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         hintText: 'Enter your password',
@@ -150,55 +152,41 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () async{
-                        if (_formKey.currentState!.validate())
-                        {
-
-                          dynamic result= await _auth.RegisterWithEmail(email, password, firstNameControl, secondNameControl);
-                          if(result==null)
-                            {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Oops'),
-                                      content: const Text('This user Already Exists, kindly log into your account.'),
-                                      actions: <Widget>[
-                                        ElevatedButton(
-                                          child: Text('Ok'),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => RegisterPage(title: "login"),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          dynamic result = await _auth.RegisterWithEmail(email,
+                              password, firstNameControl, secondNameControl);
+                          if (result == null) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Oops'),
+                                  content: const Text(
+                                      'This user Already Exists, kindly log into your account.'),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      child: Text('Ok'),
+                                      onPressed: () {
+                                        AuthenticationWrapper();
+                                      },
+                                    ),
+                                  ],
                                 );
-                            }
-
-                          else
-                          {
+                              },
+                            );
+                          } else {
                             SchedulerBinding.instance.addPostFrameCallback((_) {
                               Navigator.of(context)
                                   .pushNamed(AppRoutes.routeProfilePage);
                             });
                           }
-
                         }
-
-
 
                         // else
                         //   {
                         //     dynamic result= await _auth.RegisterWithEmail(email, password);
                         //   }
-
-
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
@@ -223,7 +211,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.routeLogin);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AuthenticationWrapper(),
+                              ),
+                            );
                           },
                           child: const Text(
                             'Log In',
@@ -241,7 +234,4 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
-
 }
-
