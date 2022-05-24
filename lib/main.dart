@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/routes/routes.dart';
-import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/login/login_screen.dart';
-import 'package:masterreads/views/signUp/register_screen.dart';
+import 'package:masterreads/views/user/books/bookList.dart';
 import 'package:masterreads/views/user/profilePage.dart';
 import 'package:provider/provider.dart';
 
@@ -47,12 +46,14 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return const ProfilePage();
+      return const BookList();
     }
     return const LoginPage(title: 'Login UI');
   }
