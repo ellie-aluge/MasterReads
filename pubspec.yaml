@@ -65,10 +65,7 @@ dependencies:
   toggle_switch: ^2.0.1
   google_fonts: ^3.0.1
   flutter_svg: ^1.1.0
-<<<<<<< HEAD
 
-=======
->>>>>>> e6ce0afbcd782c9318a389811978d3dcb5b6c185
 
 dev_dependencies:
   flutter_test:

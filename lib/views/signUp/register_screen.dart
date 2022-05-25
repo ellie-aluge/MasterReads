@@ -59,14 +59,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
 
                   children: [
-                    Row(
-                     children: [
-                       SizedBox(
-                         width:200.0,
 
-                      child: Expanded(
+                  Container(
+                  width:200.0,
+                   child: Row(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+
+                     Expanded(
+
                          child:
                          ToggleSwitch(
+
                            minWidth: 99.0,
                            minHeight: 50.0,
                            initialLabelIndex: 0,
@@ -99,9 +103,10 @@ class _RegisterPageState extends State<RegisterPage> {
                            },
                          ),
                        ),
-                       ),
+
                      ],
                     ),
+                  ),
                     Row(
                       children: [
 
