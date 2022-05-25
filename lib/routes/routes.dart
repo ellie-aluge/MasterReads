@@ -5,6 +5,11 @@ import 'package:masterreads/views/signUp/register_screen.dart';
 import 'package:masterreads/views/forgotPassword/forgot_password.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/views/user/books/bookList.dart';
+import 'package:masterreads/screens/add_book_screen/add_book_screen.dart';
+import 'package:masterreads/screens/all_book_screen/all_book_screen.dart';
+import 'package:masterreads/screens/book_details_screen/book_details_screen.dart';
+import 'package:masterreads/screens/home_screen/home_screen.dart';
+import 'package:masterreads/screens/pdf_screen.dart';
 import '../views/user/profilePage.dart';
 
 class AppRoutes {
@@ -17,6 +22,11 @@ class AppRoutes {
   static const String routeProfilePage = "/profilePage";
   static const String routeBookDetail = "/bookDetail";
   static const String routeBookList = "/bookList";
+  static const String routeAdminHomeScreen = "/home";
+  static const String routeAddBook = "/add-book";
+  static const String routeAllBook = "/all-book";
+  static const String routeBookInfo = "/book-details";
+  static const String routePdfFile = "/pdf";
 
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
@@ -29,11 +39,32 @@ class AppRoutes {
             settings: settings,
             builder: (_) => RegisterPage(title: 'Register UI'));
         break;
+      case routeAdminHomeScreen:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => HomeScreen());
+        break;
+        case routeAddBook:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => AddBookScreen());
+        break;
+        case routeAllBook:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => AllBookScreen());
+        break;
+        case routeBookInfo:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => BookDetailsScreen());
+        break;
+        case routePdfFile:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => PDFScreen());
+        break;
+        
       case routeBookDetail:
         return MaterialPageRoute(
             settings: settings, builder: (_) => BookDetail());
         break;
-         case routeBookList:
+      case routeBookList:
         return MaterialPageRoute(
             settings: settings, builder: (_) => BookList());
         break;
