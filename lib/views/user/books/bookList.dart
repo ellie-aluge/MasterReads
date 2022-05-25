@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/widgets/bottomBar.dart';

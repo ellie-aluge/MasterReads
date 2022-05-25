@@ -82,11 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                            animate: true, // with just animate set to true, default curve = Curves.easeIn
                            curve: Curves.bounceInOut, // animate must be set to true when using custom curve
                            onToggle: (index) {
-                             // var textFieldController;
-                             final List<bool> isSelected;
-                             isSelected = [true, false];
-                             // textFieldController.text = isSelected;
-                              // role= inde;
+
                              if(index==0)
                                {
                                  role='buyer';
