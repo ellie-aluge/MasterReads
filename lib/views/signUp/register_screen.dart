@@ -61,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     Row(
                      children: [
-                       Container(
+                       SizedBox(
                          width:200.0,
 
                       child: Expanded(
@@ -76,7 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                            inactiveFgColor: Colors.white,
                            activeBgColor: [Colors.purple],
                            totalSwitches: 2,
-                           labels: ['Buyer', 'Seller'],
+                           labels: const ['Buyer', 'Seller'],
                           
                            activeBgColors: [[Colors.purple.shade600, Colors.black26], [Colors.purple, Colors.orange]],
                            animate: true, // with just animate set to true, default curve = Curves.easeIn
