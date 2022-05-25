@@ -29,12 +29,12 @@ class AuthService {
   //Register with email and password
   // ignore: non_constant_identifier_names
   Future RegisterWithEmail(String email, String password,
-      final firstNameController, final secondNameController) async {
+      final firstNameController, final secondNameController, String role) async {
     try {
       UserCredential credentials = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? ebookUser = credentials.user;
-      postDetailsToFirestore(firstNameController, secondNameController);
+      postDetailsToFirestore(firstNameController, secondNameController, role);
       return ebookUser;
     } catch (e) {
       print("an error occured");
@@ -81,7 +81,7 @@ class AuthService {
   }
 
   postDetailsToFirestore(
-      final firstNameController, final secondNameController) async {
+      final firstNameController, final secondNameController, String role) async {
     // calling our firestore
     // calling our user model
     // sedning these values
@@ -96,6 +96,7 @@ class AuthService {
     userModel.uid = user.uid;
     userModel.firstName = firstNameController.text;
     userModel.secondName = secondNameController.text;
+    userModel.role= role;
 
     var firebaseuser = await FirebaseAuth.instance.currentUser;
     // await firebaseFirestore

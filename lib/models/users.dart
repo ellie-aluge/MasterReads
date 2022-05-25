@@ -7,8 +7,9 @@ class eUserModel {
   String? email;
   String? firstName;
   String? secondName;
+  String? role;
 
-  eUserModel({this.uid, this.email, this.firstName, this.secondName});
+  eUserModel({this.role, this.uid, this.email, this.firstName, this.secondName});
 
   // receiving data from server
   factory eUserModel.fromMap(map) {
@@ -17,6 +18,7 @@ class eUserModel {
       email: map['email'],
       firstName: map['firstName'],
       secondName: map['secondName'],
+      role: map['role'],
     );
   }
 
@@ -27,6 +29,7 @@ class eUserModel {
       'email': email,
       'firstName': firstName,
       'secondName': secondName,
+      'role' : role,
     };
   }
 }
