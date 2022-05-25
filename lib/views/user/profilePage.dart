@@ -18,8 +18,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with SingleTickerProviderStateMixin {
-  late String email;
-  late String firstName, secondName;
+  late String email, firstName, secondName, role;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +62,20 @@ class _ProfilePageState extends State<ProfilePage>
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      'Profile',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontFamily: 'Nisebuschgardens'),
+                    FutureBuilder(
+                      future: _fetch(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done)
+                          return Text("Loading data...");
+                        return Text(
+                          '$role' == 'seller' ? 'Seller' : 'Profile',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: 'Nisebuschgardens'),
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 20,
@@ -278,7 +284,7 @@ class _ProfilePageState extends State<ProfilePage>
         email = ds.data()!['email'];
         firstName = ds.data()!['firstName'];
         secondName = ds.data()!['secondName'];
-        print(email);
+        role = ds.data()!['role'];
       }).catchError((e) {
         print(e);
       });
