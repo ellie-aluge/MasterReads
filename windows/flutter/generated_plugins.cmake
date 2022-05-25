@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  connectivity_plus_windows
+  syncfusion_pdfviewer_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
