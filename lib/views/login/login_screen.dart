@@ -119,7 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                           context
                               .read<AuthService>()
                               .SignInWithEmail(email, password);
-                          RoleRouting();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AuthenticationWrapper()));
+
                         }
 
                         // if (_formKey.currentState!.validate()) {

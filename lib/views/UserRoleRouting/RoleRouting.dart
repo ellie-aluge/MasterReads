@@ -18,16 +18,25 @@ class RoleRouting extends StatefulWidget {
 
 }
 
-class _RoleRouting extends State<RoleRouting> {
+class _RoleRouting extends State<RoleRouting>  with TickerProviderStateMixin  {
   String role = 'buyer';
-
+  late AnimationController controller;
 
 
   @override
   void initState() {
     super.initState();
     _checkRole();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    )..addListener(() {
+      setState(() {});
+    });
+    controller.repeat(reverse: true);
   }
+
+
 
   void _checkRole() async {
 
@@ -53,35 +62,53 @@ class _RoleRouting extends State<RoleRouting> {
   void navigateNext(Widget route) {
     Timer(Duration(milliseconds: 500), () {
 
-      Navigator.pushNamed(context, AppRoutes.routeBookDetail);
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => route));
+      // Navigator.pushNamed(context, AppRoutes.routeBookDetail);
+      Navigator.push(context, MaterialPageRoute(builder: (_) => route));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Welcome'),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-
-                      context.read<AuthService>().signOut();
-                    },
-                    child: Text("Sign Out"))
-              ],
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            const Text(
+              'Loading',
+              style: TextStyle(fontSize: 20),
+            ),
+            LinearProgressIndicator(
+              value: controller.value,
+              semanticsLabel: 'Loading',
             ),
           ],
         ),
-
       ),
     );
+    // return Scaffold(
+    //   body: Center(
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+    //         Text('Welcome'),
+    //
+    //         Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             ElevatedButton(
+    //                 onPressed: () {
+    //
+    //                   context.read<AuthService>().signOut();
+    //                 },
+    //                 child: Text("Sign Out"))
+    //           ],
+    //         ),
+    //       ],
+    //     ),
+    //
+    //   ),
+    // );
   }
 }
