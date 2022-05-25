@@ -7,7 +7,7 @@ import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/user/profilePage.dart';
-
+import 'package:toggle_switch/toggle_switch.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -22,9 +22,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final auth = FirebaseAuth.instance;
   final firstNameControl = TextEditingController();
   final secondNameControl = TextEditingController();
+  // final roleControl= B
   final AuthService _auth = AuthService(FirebaseAuth.instance);
   String email = '';
   String password = '';
+  String role= 'buyer';
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +53,62 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 60,
               ),
               Form(
+
                 key: _formKey,
+
                 child: Column(
+
                   children: [
                     Row(
+                     children: [
+                       Container(
+                         width:200.0,
+
+                      child: Expanded(
+                         child:
+                         ToggleSwitch(
+                           minWidth: 99.0,
+                           minHeight: 50.0,
+                           initialLabelIndex: 0,
+                           cornerRadius: 5.0,
+                           activeFgColor: Colors.white,
+                           inactiveBgColor: Colors.grey,
+                           inactiveFgColor: Colors.white,
+                           activeBgColor: [Colors.purple],
+                           totalSwitches: 2,
+                           labels: ['Buyer', 'Seller'],
+                          
+                           activeBgColors: [[Colors.purple.shade600, Colors.black26], [Colors.purple, Colors.orange]],
+                           animate: true, // with just animate set to true, default curve = Curves.easeIn
+                           curve: Curves.bounceInOut, // animate must be set to true when using custom curve
+                           onToggle: (index) {
+                             // var textFieldController;
+                             final List<bool> isSelected;
+                             isSelected = [true, false];
+                             // textFieldController.text = isSelected;
+                              // role= inde;
+                             if(index==0)
+                               {
+                                 role='buyer';
+                               }
+
+                             else
+                               {
+                                 role='seller';
+                               }
+
+                              print (role);
+
+                             print('switched to: $index');
+                           },
+                         ),
+                       ),
+                       ),
+                     ],
+                    ),
+                    Row(
                       children: [
+
                         Expanded(
                           child: TextFormField(
                             controller: firstNameControl,
@@ -155,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           dynamic result = await _auth.RegisterWithEmail(email,
-                              password, firstNameControl, secondNameControl);
+                              password, firstNameControl, secondNameControl, role);
                           if (result == null) {
                             showDialog(
                               context: context,

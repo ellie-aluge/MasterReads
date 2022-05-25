@@ -11,6 +11,11 @@ const Color kOnSurfaceColor = Color(0xffffffff);
 const Color kOnBackgroundColor = Color(0xffffffff);
 const Color kOnErrorColor = Color(0xff000000);
 
+Color kAccentColor = Colors.purple.shade900;
+Color kAppBarBackground = Colors.white;
+Color kHighlightColor = Colors.red;
+
+
 ColorScheme defaultColorScheme = const ColorScheme(
   primary: Color(0xffBB86FC),
   secondary: Color(0xff03DAC6),
