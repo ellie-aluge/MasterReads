@@ -109,11 +109,12 @@ class _ProfilePageState extends State<ProfilePage>
                                         future: _fetch(),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState !=
-                                              ConnectionState.done)
-                                            return Text("Loading data...");
+                                              ConnectionState.done) {
+                                            return const Text("Loading data...");
+                                          }
                                           return Text(
                                             '$firstName $secondName',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: kPrimaryColor,
                                               fontFamily: 'Poppins',
                                               fontSize: 30,
@@ -275,6 +276,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   _fetch() async {
     final firebaseUser = await FirebaseAuth.instance.currentUser!;
+
     if (firebaseUser != null) {
       await FirebaseFirestore.instance
           .collection('users')

@@ -16,6 +16,7 @@ class AuthService {
   final signup = const RegisterPage(title: "signup");
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   late final FirebaseAuth _firebaseAuth;
+  final CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   AuthService(this._firebaseAuth);
   //Auth change user stream
@@ -24,6 +25,7 @@ class AuthService {
   // Auth user sign out
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+
   }
 
   //Register with email and password
@@ -113,5 +115,22 @@ class AuthService {
 
   Future getAuthUser() async {
     return await _auth.currentUser;
+  }
+
+
+  Future getUsersList() async {
+    List itemsList = [];
+
+    try {
+      await users.get().then((querySnapshot) {
+        querySnapshot.docs.forEach((element) {
+          itemsList.add(element.data);
+        });
+      });
+      return itemsList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 }
