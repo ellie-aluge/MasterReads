@@ -157,14 +157,9 @@ class _ProfilePageState extends State<ProfilePage>
                                         future: _fetch(),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState !=
-<<<<<<< HEAD
-                                              ConnectionState.done)
-                                            return const Text(loadingData);
-=======
                                               ConnectionState.done) {
-                                            return const Text("Loading data...");
+                                            return const Text(loadingData);
                                           }
->>>>>>> 41b71700208374c9dff4c46e080ce030d5da7ec9
                                           return Text(
                                             '$firstName $secondName',
                                             style: const TextStyle(
@@ -429,26 +424,4 @@ class _ProfilePageState extends State<ProfilePage>
     }
     return const LoginPage(title: 'Login UI');
   }
-<<<<<<< HEAD
-=======
-
-  _fetch() async {
-    final firebaseUser = await FirebaseAuth.instance.currentUser!;
-
-    if (firebaseUser != null) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((ds) {
-        email = ds.data()!['email'];
-        firstName = ds.data()!['firstName'];
-        secondName = ds.data()!['secondName'];
-        role = ds.data()!['role'];
-      }).catchError((e) {
-        print(e);
-      });
-    }
-  }
->>>>>>> 41b71700208374c9dff4c46e080ce030d5da7ec9
 }
