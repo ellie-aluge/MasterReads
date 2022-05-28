@@ -1,16 +1,21 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 
 class BookDetail extends StatelessWidget {
-  const BookDetail({super.key});
+  BookDetail(
+      {required this.coverUrl,
+      required this.title,
+      required this.author,
+      required this.price,
+      required this.description});
 
+  final String coverUrl, title, author, description, price;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: 25,
           right: 25,
           bottom: 25,
@@ -19,19 +24,19 @@ class BookDetail extends StatelessWidget {
         color: Colors.transparent,
         child: TextButton(
           onPressed: () {},
-          child: Text(
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              backgroundColor:
+                  MaterialStateProperty.resolveWith((states) => kPrimaryColor)),
+          child: const Text(
             'Add to library',
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
                 color: Colors.white),
-          ),
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
-            backgroundColor: MaterialStateProperty.resolveWith((states) => kPrimaryColor)
           ),
         ),
       ),
@@ -50,12 +55,12 @@ class BookDetail extends StatelessWidget {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 62),
-                          width: 225,
-                          height: 172,
+                          margin: const EdgeInsets.only(bottom: 62),
+                          width: 300,
+                          height: 250,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/images/images.jpeg'),
+                              image: NetworkImage(coverUrl),
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -68,13 +73,13 @@ class BookDetail extends StatelessWidget {
               SliverList(
                 delegate: SliverChildListDelegate([
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 24,
                       left: 25,
                     ),
                     child: Text(
-                      'You\'re A Miracle',
-                      style: TextStyle(
+                      title,
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 27,
                         color: Colors.black,
@@ -83,13 +88,13 @@ class BookDetail extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 24,
                       left: 25,
                     ),
                     child: Text(
-                      'Mike Mchargue',
-                      style: TextStyle(
+                      author,
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14,
                         color: Colors.grey,
@@ -98,7 +103,7 @@ class BookDetail extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 24,
                       left: 25,
                     ),
@@ -106,8 +111,8 @@ class BookDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '\$',
-                          style: TextStyle(
+                          price == '0' ? '' : '\$',
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
                             color: kPrimaryColor,
@@ -115,8 +120,8 @@ class BookDetail extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Price',
-                          style: TextStyle(
+                          price == '0' ? 'FREE' : '${price}',
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 32,
                             color: kPrimaryColor,
@@ -128,26 +133,26 @@ class BookDetail extends StatelessWidget {
                   ),
                   Container(
                     height: 28,
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       top: 23,
                       bottom: 36,
                     ),
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 25,
                     ),
                     child: DefaultTabController(
                       length: 3,
                       child: TabBar(
-                        labelPadding: EdgeInsets.all(0),
-                        indicatorPadding: EdgeInsets.all(0),
+                        labelPadding: const EdgeInsets.all(0),
+                        indicatorPadding: const EdgeInsets.all(0),
                         isScrollable: true,
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.grey,
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
-                        unselectedLabelStyle: TextStyle(
+                        unselectedLabelStyle: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
@@ -159,20 +164,20 @@ class BookDetail extends StatelessWidget {
                         tabs: [
                           Tab(
                             child: Container(
-                              margin: EdgeInsets.only(right: 39),
-                              child: Text('Description'),
+                              margin: const EdgeInsets.only(right: 39),
+                              child: const Text('Description'),
                             ),
                           ),
                           Tab(
                             child: Container(
-                              margin: EdgeInsets.only(right: 39),
-                              child: Text('Reviews'),
+                              margin: const EdgeInsets.only(right: 39),
+                              child: const Text('Reviews'),
                             ),
                           ),
                           Tab(
                             child: Container(
-                              margin: EdgeInsets.only(right: 39),
-                              child: Text('Similar'),
+                              margin: const EdgeInsets.only(right: 39),
+                              child: const Text('Similar'),
                             ),
                           ),
                         ],
@@ -180,14 +185,14 @@ class BookDetail extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 25,
                       right: 25,
                       bottom: 25,
                     ),
                     child: Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                      style: TextStyle(
+                      description,
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 12,
                         fontWeight: FontWeight.w400,

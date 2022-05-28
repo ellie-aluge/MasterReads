@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DescriptionField extends StatelessWidget {
-  const DescriptionField(this.handler);
+  const DescriptionField(this.handler, {super.key});
 
   final Function? handler;
 
@@ -10,11 +10,11 @@ class DescriptionField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 1),
+        const Padding(
+          padding: EdgeInsets.only(left: 1),
           child: Text('Enter Book Description'),
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
         TextFormField(
           decoration: InputDecoration(
             hintText: 'Description',

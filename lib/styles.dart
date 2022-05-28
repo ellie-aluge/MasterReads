@@ -40,5 +40,9 @@ TextStyle bookDescription() {
 }
 
 TextStyle actionButtonText() {
-  return TextStyle(color: Colors.white, fontSize: 15);
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 15,
+    fontFamily: 'Poppins',
+  );
 }

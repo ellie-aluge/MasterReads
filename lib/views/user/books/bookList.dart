@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterreads/constants/colors.dart';
-import 'package:masterreads/routes/routes.dart';
+import 'package:masterreads/constants/text.dart';
+import 'package:masterreads/models/book.dart';
+import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 
@@ -16,6 +15,26 @@ class BookList extends StatefulWidget {
 }
 
 class _BookListState extends State<BookList> {
+  List bookList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getBookList();
+  }
+
+  getBookList() async {
+    dynamic data = await Book().getBookList();
+
+    if (data == null) {
+      print(failedRetrieveData);
+    } else {
+      setState(() {
+        bookList = data;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,14 +192,24 @@ class _BookListState extends State<BookList> {
                       left: 25,
                       right: 6,
                     ),
-                    itemCount: 6,
+                    itemCount: bookList.length,
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, AppRoutes.routeBookDetail);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BookDetail(
+                                coverUrl: bookList[index]['coverPhotoUrl'],
+                                title: bookList[index]['title'],
+                                author: bookList[index]['author'],
+                                price: bookList[index]['price'].toString(),
+                                description: bookList[index]['description'],
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 19),
@@ -190,7 +219,9 @@ class _BookListState extends State<BookList> {
                             borderRadius: BorderRadius.circular(10),
                             color: kPrimaryColor,
                             image: DecorationImage(
-                              image: AssetImage('assets/images/images.jpeg'),
+                              image: NetworkImage(
+                                '${bookList[index]['coverPhotoUrl']}',
+                              ),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -219,11 +250,22 @@ class _BookListState extends State<BookList> {
                   ),
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: bookList.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.routeBookDetail);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BookDetail(
+                              coverUrl: bookList[index]['coverPhotoUrl'],
+                              title: bookList[index]['title'],
+                              author: bookList[index]['author'],
+                              price: bookList[index]['price'].toString(),
+                              description: bookList[index]['description'],
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         margin: EdgeInsets.only(bottom: 19),
@@ -238,8 +280,9 @@ class _BookListState extends State<BookList> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/images.jpeg'),
+                                  image: NetworkImage(
+                                    '${bookList[index]['coverPhotoUrl']}',
+                                  ),
                                   fit: BoxFit.fill,
                                 ),
                                 color: kPrimaryColor,
@@ -253,7 +296,7 @@ class _BookListState extends State<BookList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'Title will be here',
+                                  '${bookList[index]['title'].length > 30 ? bookList[index]['title'].substring(0, 30) + '...' : bookList[index]['title']}',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
@@ -265,7 +308,7 @@ class _BookListState extends State<BookList> {
                                   height: 5,
                                 ),
                                 Text(
-                                  'Author',
+                                  '${bookList[index]['author']}',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 10,
@@ -277,7 +320,9 @@ class _BookListState extends State<BookList> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '\$' + 'Price',
+                                  bookList[index]['price'] == 0
+                                      ? 'FREE'
+                                      : '\$' '${bookList[index]['price']}',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 14,

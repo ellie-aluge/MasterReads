@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masterreads/providers/books_provider.dart';
 import 'package:masterreads/screens/all_book_screen/all_book_screen.dart';
-import 'package:masterreads/screens/home_screen/components/recent_books.dart';
+import 'package:masterreads/views/user/books/home_screen/components/recent_books.dart';
 import 'package:provider/provider.dart';
 
 import 'library.dart';

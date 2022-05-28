@@ -5,8 +5,6 @@ import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/main.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:masterreads/views/home/welcomePage.dart';
-import 'package:masterreads/views/user/profilePage.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);

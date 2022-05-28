@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:masterreads/models/book.dart';
 import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:masterreads/views/signUp/register_screen.dart';
 import 'package:masterreads/views/forgotPassword/forgot_password.dart';
+import 'package:masterreads/views/user/books/add_book_screen/add_book_screen.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/views/user/books/bookList.dart';
-import 'package:masterreads/screens/add_book_screen/add_book_screen.dart';
 import 'package:masterreads/screens/all_book_screen/all_book_screen.dart';
 import 'package:masterreads/screens/book_details_screen/book_details_screen.dart';
-import 'package:masterreads/screens/home_screen/home_screen.dart';
+import 'package:masterreads/views/user/books/home_screen/home_screen.dart';
 import 'package:masterreads/screens/pdf_screen.dart';
 import '../views/user/profilePage.dart';
 
@@ -32,45 +33,41 @@ class AppRoutes {
     switch (settings.name) {
       case routeLogin:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => LoginPage(title: 'Login UI'));
+            settings: settings,
+            builder: (_) => const LoginPage(title: 'Login UI'));
         break;
       case routeSignUp:
         return MaterialPageRoute(
             settings: settings,
-            builder: (_) => RegisterPage(title: 'Register UI'));
+            builder: (_) => const RegisterPage(title: 'Register UI'));
         break;
       case routeAdminHomeScreen:
         return MaterialPageRoute(
             settings: settings, builder: (_) => HomeScreen());
         break;
-        case routeAddBook:
+      case routeAddBook:
         return MaterialPageRoute(
             settings: settings, builder: (_) => AddBookScreen());
         break;
-        case routeAllBook:
+      case routeAllBook:
         return MaterialPageRoute(
             settings: settings, builder: (_) => AllBookScreen());
         break;
-        case routeBookInfo:
+      case routeBookInfo:
         return MaterialPageRoute(
             settings: settings, builder: (_) => BookDetailsScreen());
         break;
-        case routePdfFile:
+      case routePdfFile:
         return MaterialPageRoute(
             settings: settings, builder: (_) => PDFScreen());
         break;
-        
-      case routeBookDetail:
-        return MaterialPageRoute(
-            settings: settings, builder: (_) => BookDetail());
-        break;
       case routeBookList:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => BookList());
+            settings: settings, builder: (_) => const BookList());
         break;
       case routeWelcome:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => welcomePage());
+            settings: settings, builder: (_) => const welcomePage());
         break;
 
       case routeForgotPassword:
@@ -80,11 +77,11 @@ class AppRoutes {
 
       case routeProfilePage:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => ProfilePage());
+            settings: settings, builder: (_) => const ProfilePage());
         break;
       default:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => welcomePage());
+            settings: settings, builder: (_) => const welcomePage());
     }
   }
 }

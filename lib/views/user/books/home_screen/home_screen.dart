@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterreads/styles.dart';
 import 'package:masterreads/utils/search.dart';
-
-import '../../components/drawer.dart';
-import '../../screens/add_book_screen/add_book_screen.dart';
-import 'components/body.dart';
+import 'package:masterreads/views/user/books/add_book_screen/add_book_screen.dart';
+import 'package:masterreads/components/drawer.dart';
+import 'package:masterreads/views/user/books/home_screen/components/body.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home';
