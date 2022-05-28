@@ -10,6 +10,7 @@ import 'package:masterreads/views/Admin/adminHomepage.dart';
 import 'package:masterreads/views/user/books/bookList.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:provider/provider.dart';
+import 'package:snap/snap.dart';
 
 class RoleRouting extends StatefulWidget {
   const RoleRouting({Key? key}) : super(key: key);
@@ -44,9 +45,12 @@ class _RoleRouting extends State<RoleRouting>  with TickerProviderStateMixin  {
     final DocumentSnapshot snap = await FirebaseFirestore.instance.collection('users').doc(user?.uid).get();
     print ("This id:");
     print(user?.uid);
-
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users').where('email', isEqualTo: user?.email).get();
     setState(() {
-      role = snap['role'];
+
+
+      role = snapshot.docs[0]['role'];
+      // role=snap[role];
     });
 
     if(role == 'buyer' ||role=="seller"){

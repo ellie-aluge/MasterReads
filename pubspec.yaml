@@ -73,6 +73,7 @@ dependencies:
   syncfusion_flutter_pdfviewer_web: ^19.4.56-beta
   firebase_storage: ^10.2.16
   syncfusion_flutter_pdfviewer: ^20.1.57-beta
+  snap: ^2.0.0
 
 
 dev_dependencies:
