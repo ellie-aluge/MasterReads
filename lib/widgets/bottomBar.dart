@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/routes/routes.dart';
 
+import '../utils/search.dart';
+
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});
 
@@ -44,7 +46,10 @@ class BottomBar extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => showSearch(
+                  context: context,
+                  delegate: Search(),
+                ),
                 icon: Icon(
                   Icons.search,
                   size: 36,

@@ -14,7 +14,7 @@ class Search extends SearchDelegate {
             headline6: TextStyle(color: Colors.white),
           ),
       appBarTheme: AppBarTheme(
-        backgroundColor: Color(0xFF1d212b),
+        backgroundColor: Color(0xffBB86FC),
         brightness: Brightness.dark,
       ),
       inputDecorationTheme: InputDecorationTheme(
