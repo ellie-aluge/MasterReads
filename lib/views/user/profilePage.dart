@@ -278,6 +278,7 @@ class _ProfilePageState extends State<ProfilePage>
                                           context,
                                           MaterialPageRoute(
                                             builder: (_) => BookDetail(
+                                              userId: id,
                                               coverUrl: sellerBooks[index]
                                                   ['coverPhotoUrl'],
                                               title: sellerBooks[index]

@@ -54,7 +54,7 @@ class Book {
 
   factory Book.fromFirestore(dynamic book) {
     return Book(
-      id: book.id,
+      id: book.get('id'),
       // id: book.get('id'),
       sellerId: book.get('sellerId'),
       title: book.get('title'),
@@ -88,14 +88,17 @@ class Book {
 
   Future getSellerBooks(String sellerId) async {
     List sellerBooks = [];
+    List book = sellerBooks;
 
     try {
       await books.where('sellerId', isEqualTo: sellerId).get().then((snapshot) {
         snapshot.docs.forEach((element) {
           sellerBooks.add(element.data());
+          // sellerBooks.add({'id': element.reference.id});
         });
       });
-      return sellerBooks;
+      print(book);
+      return book;
     } catch (e) {
       print(e.toString());
       return null;

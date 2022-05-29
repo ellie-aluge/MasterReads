@@ -1,16 +1,33 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/constants/colors.dart';
+import 'package:masterreads/constants/text.dart';
+import 'package:masterreads/models/book.dart';
+import 'package:masterreads/views/user/books/edit_book_screen/edit_book_screen.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 
 class BookDetail extends StatelessWidget {
-  BookDetail(
-      {required this.coverUrl,
-      required this.title,
-      required this.author,
-      required this.price,
-      required this.description});
+  BookDetail({
+    required this.userId,
+    required this.coverUrl,
+    required this.title,
+    required this.author,
+    required this.price,
+    required this.description,
+  });
 
-  final String coverUrl, title, author, description, price;
+  final String userId, coverUrl, title, author, description, price;
+
+  getSellerBooks() async {
+    final data = await Book().getSellerBooks(userId);
+    if (data.isNotEmpty == true) {
+      print(data);
+      return data;
+    } else if (data.isNotEmpty == false) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,23 +39,55 @@ class BookDetail extends StatelessWidget {
         ),
         height: 49,
         color: Colors.transparent,
-        child: TextButton(
-          onPressed: () {},
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: FutureBuilder(
+          future: getSellerBooks(),
+          builder: ((context, snapshot) {
+            return TextButton(
+              onPressed: () {
+                if (snapshot.data != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => EditBookScreen(),
+                    ),
+                  );
+                }
+              },
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => kPrimaryColor)),
+              child: Text(
+                snapshot.data == null ? 'Add to Library' : 'Edit Book',
+                style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Colors.white),
               ),
-              backgroundColor:
-                  MaterialStateProperty.resolveWith((states) => kPrimaryColor)),
-          child: const Text(
-            'Add to library',
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                color: Colors.white),
-          ),
+            );
+          }),
         ),
+        // TextButton(
+        //   onPressed: () {},
+        //   style: ButtonStyle(
+        //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        //         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        //       ),
+        //       backgroundColor:
+        //           MaterialStateProperty.resolveWith((states) => kPrimaryColor)),
+        //   child: const Text(
+        //     'Add to library',
+        //     style: TextStyle(
+        //         fontFamily: 'Poppins',
+        //         fontWeight: FontWeight.w600,
+        //         fontSize: 14,
+        //         color: Colors.white),
+        //   ),
+        // ),
       ),
       body: SafeArea(
         child: Container(

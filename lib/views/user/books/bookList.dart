@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:masterreads/constants/colors.dart';
@@ -16,6 +17,7 @@ class BookList extends StatefulWidget {
 }
 
 class _BookListState extends State<BookList> {
+  final userId = FirebaseAuth.instance.currentUser!;
   List bookList = [];
 
   @override
@@ -43,10 +45,10 @@ class _BookListState extends State<BookList> {
         child: Stack(
           children: [
             ListView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 25, top: 25),
+                  padding: const EdgeInsets.only(left: 25, top: 25),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -59,10 +61,10 @@ class _BookListState extends State<BookList> {
                           color: Colors.grey[600],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text(
+                      const Text(
                         "Discover Latest Book",
                         style: TextStyle(
                           fontFamily: 'Poppins',
@@ -76,7 +78,7 @@ class _BookListState extends State<BookList> {
                 ),
                 Container(
                   height: 39,
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     left: 25,
                     right: 25,
                     top: 18,
@@ -89,13 +91,13 @@ class _BookListState extends State<BookList> {
                     children: <Widget>[
                       TextField(
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Colors.black,
                           fontWeight: FontWeight.w900,
                         ),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(
+                          contentPadding: const EdgeInsets.only(
                             left: 19,
                             right: 50,
                             bottom: 8,
@@ -119,7 +121,7 @@ class _BookListState extends State<BookList> {
                             color: kPrimaryColor,
                           ),
                           child: IconButton(
-                            padding: EdgeInsets.symmetric(),
+                            padding: const EdgeInsets.symmetric(),
                             onPressed: () => showSearch(
                               context: context,
                               delegate: Search(),
@@ -129,7 +131,7 @@ class _BookListState extends State<BookList> {
                                 context: context,
                                 delegate: Search(),
                               ),
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.search,
                                 size: 25,
                                 color: Colors.white,
@@ -143,21 +145,21 @@ class _BookListState extends State<BookList> {
                 ),
                 Container(
                   height: 25,
-                  margin: EdgeInsets.only(top: 30),
-                  padding: EdgeInsets.only(left: 25),
+                  margin: const EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.only(left: 25),
                   child: DefaultTabController(
                     length: 3,
                     child: TabBar(
-                      labelPadding: EdgeInsets.all(0),
-                      indicatorPadding: EdgeInsets.all(0),
+                      labelPadding: const EdgeInsets.all(0),
+                      indicatorPadding: const EdgeInsets.all(0),
                       isScrollable: true,
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.grey,
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
-                      unselectedLabelStyle: TextStyle(
+                      unselectedLabelStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
@@ -169,20 +171,20 @@ class _BookListState extends State<BookList> {
                       tabs: [
                         Tab(
                           child: Container(
-                            margin: EdgeInsets.only(right: 23),
-                            child: Text('New'),
+                            margin: const EdgeInsets.only(right: 23),
+                            child: const Text('New'),
                           ),
                         ),
                         Tab(
                           child: Container(
-                            margin: EdgeInsets.only(right: 23),
-                            child: Text('Trending'),
+                            margin: const EdgeInsets.only(right: 23),
+                            child: const Text('Trending'),
                           ),
                         ),
                         Tab(
                           child: Container(
-                            margin: EdgeInsets.only(right: 23),
-                            child: Text('Best Seller'),
+                            margin: const EdgeInsets.only(right: 23),
+                            child: const Text('Best Seller'),
                           ),
                         ),
                       ],
@@ -190,17 +192,17 @@ class _BookListState extends State<BookList> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     top: 21,
                   ),
                   height: 210,
                   child: ListView.builder(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 25,
                       right: 6,
                     ),
                     itemCount: bookList.length,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return GestureDetector(
@@ -209,6 +211,7 @@ class _BookListState extends State<BookList> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => BookDetail(
+                                userId: userId.uid,
                                 coverUrl: bookList[index]['coverPhotoUrl'],
                                 title: bookList[index]['title'],
                                 author: bookList[index]['author'],
@@ -219,7 +222,7 @@ class _BookListState extends State<BookList> {
                           );
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: 19),
+                          margin: const EdgeInsets.only(right: 19),
                           height: 210,
                           width: 153,
                           decoration: BoxDecoration(
@@ -237,7 +240,7 @@ class _BookListState extends State<BookList> {
                     },
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: 25, top: 25),
                   child: Text(
                     "Popular",
@@ -250,12 +253,12 @@ class _BookListState extends State<BookList> {
                   ),
                 ),
                 ListView.builder(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     top: 25,
                     right: 25,
                     left: 25,
                   ),
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: bookList.length,
                   itemBuilder: (context, index) {
@@ -265,6 +268,7 @@ class _BookListState extends State<BookList> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => BookDetail(
+                              userId: userId.uid,
                               coverUrl: bookList[index]['coverPhotoUrl'],
                               title: bookList[index]['title'],
                               author: bookList[index]['author'],
@@ -275,7 +279,7 @@ class _BookListState extends State<BookList> {
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 19),
+                        margin: const EdgeInsets.only(bottom: 19),
                         height: 81,
                         width: MediaQuery.of(context).size.width - 50,
                         color: Colors.white,
@@ -295,7 +299,7 @@ class _BookListState extends State<BookList> {
                                 color: kPrimaryColor,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Column(
@@ -304,33 +308,33 @@ class _BookListState extends State<BookList> {
                               children: <Widget>[
                                 Text(
                                   '${bookList[index]['title'].length > 30 ? bookList[index]['title'].substring(0, 30) + '...' : bookList[index]['title']}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   '${bookList[index]['author']}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   bookList[index]['price'] == 0
                                       ? 'FREE'
                                       : '\$' '${bookList[index]['price']}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -345,12 +349,12 @@ class _BookListState extends State<BookList> {
                     );
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
               ],
             ),
-            BottomBar(),
+            const BottomBar(),
           ],
         ),
       ),
