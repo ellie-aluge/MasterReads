@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
+import 'package:masterreads/utils/search.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/views/user/books/searchBook.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
@@ -127,6 +128,7 @@ class _BookListState extends State<BookList> {
                           ),
                           child: IconButton(
                             padding: EdgeInsets.symmetric(),
+
                             onPressed: () {
                               // print("this search");
                               // print (searchEntry);
@@ -144,15 +146,26 @@ class _BookListState extends State<BookList> {
                              //  ),
                             },
                             icon: IconButton(
-                              onPressed: () {
+                //               onPressed: () {
+                //
+                //                 print("this search");
+                //                 print (searchEntry);
+                //
+                // searchBooks().searchSellerBooks(searchEntry, bookList);
+                //
+                //
+                //               },
 
-                                print("this search");
-                                print (searchEntry);
+                            onPressed: () => showSearch(
+                              context: context,
+                              delegate: Search(),
+                            ),
+                            icon: IconButton(
+                              onPressed: () => showSearch(
+                                context: context,
+                                delegate: Search(),
+                              ),
 
-                searchBooks().searchSellerBooks(searchEntry, bookList);
-
-
-                              },
                               icon: Icon(
                                 Icons.search,
                                 size: 25,
@@ -162,7 +175,8 @@ class _BookListState extends State<BookList> {
                           ),
                         ),
                       ),
-                    ],
+                      ),
+                        ],
                   ),
                 ),
                 Container(

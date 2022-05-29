@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/constants/colors.dart';
+import 'package:masterreads/providers/books_provider.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/UserRoleRouting/RoleRouting.dart';
 import 'package:masterreads/views/login/login_screen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           create: (context) => context.read<AuthService>().authStateChanges,
           initialData: null,
         ),
+        ChangeNotifierProvider(create: (_) => Books()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -54,7 +56,7 @@ class AuthenticationWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return  RoleRouting();
+      return RoleRouting();
     }
     return const LoginPage(title: 'Login UI');
   }
