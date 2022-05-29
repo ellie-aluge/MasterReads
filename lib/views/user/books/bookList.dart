@@ -4,6 +4,7 @@ import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
+import 'package:masterreads/views/user/books/searchBook.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 
@@ -12,10 +13,13 @@ class BookList extends StatefulWidget {
 
   @override
   State<BookList> createState() => _BookListState();
+
 }
 
 class _BookListState extends State<BookList> {
   List bookList = [];
+  // String searchEntry='';
+  String searchEntry = '';
 
   @override
   void initState() {
@@ -50,7 +54,7 @@ class _BookListState extends State<BookList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Let's Reading !",
+                        "Let's Start Reading !",
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
@@ -87,12 +91,16 @@ class _BookListState extends State<BookList> {
                   child: Stack(
                     children: <Widget>[
                       TextField(
+
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.black,
                           fontWeight: FontWeight.w900,
                         ),
+                        onChanged: (value) {
+                          searchEntry = value;
+                        },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(
                             left: 19,
@@ -119,9 +127,32 @@ class _BookListState extends State<BookList> {
                           ),
                           child: IconButton(
                             padding: EdgeInsets.symmetric(),
-                            onPressed: () {},
+                            onPressed: () {
+                              // print("this search");
+                              // print (searchEntry);
+                             //  List item=[];
+                             // item= getBookList();
+                             //  MaterialPageRoute(
+                             //
+                             //    builder: (_) => BookDetail(
+                             //      coverUrl: bookList[index]['coverPhotoUrl'],
+                             //      title: bookList[index]['title'],
+                             //      author: bookList[index]['author'],
+                             //      price: bookList[index]['price'].toString(),
+                             //      description: bookList[index]['description'],
+                             //    ),
+                             //  ),
+                            },
                             icon: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+
+                                print("this search");
+                                print (searchEntry);
+
+                searchBooks().searchSellerBooks(searchEntry, bookList);
+
+
+                              },
                               icon: Icon(
                                 Icons.search,
                                 size: 25,
@@ -348,5 +379,9 @@ class _BookListState extends State<BookList> {
         ),
       ),
     );
+  }
+
+  void searchSellerBooks(String searchEntry, List bookList) {
+
   }
 }
