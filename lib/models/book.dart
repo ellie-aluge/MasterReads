@@ -25,7 +25,7 @@ class Book {
   final String? sellerId;
   final String? id;
   final String? title;
-  final double? price;
+  final num? price;
   final String? author;
   final String? pdfUrl;
   final String? coverPhotoUrl;
@@ -54,7 +54,8 @@ class Book {
 
   factory Book.fromFirestore(dynamic book) {
     return Book(
-      id: book.get('id'),
+      id: book.id,
+      // id: book.get('id'),
       sellerId: book.get('sellerId'),
       title: book.get('title'),
       price: book.get('price'),

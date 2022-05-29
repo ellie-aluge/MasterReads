@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
+import 'package:masterreads/utils/search.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
@@ -119,9 +120,15 @@ class _BookListState extends State<BookList> {
                           ),
                           child: IconButton(
                             padding: EdgeInsets.symmetric(),
-                            onPressed: () {},
+                            onPressed: () => showSearch(
+                              context: context,
+                              delegate: Search(),
+                            ),
                             icon: IconButton(
-                              onPressed: () {},
+                              onPressed: () => showSearch(
+                                context: context,
+                                delegate: Search(),
+                              ),
                               icon: Icon(
                                 Icons.search,
                                 size: 25,
