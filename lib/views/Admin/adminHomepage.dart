@@ -65,13 +65,22 @@ class _adminHomePageState extends State<adminHomePage> {
 
               ),
               ),
-              Card(
 
+
+              Card(
 
                 shape:RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
+
                 ),
                 elevation:6,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserModel()));
+                },
+
                 child:Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children :<Widget> [
@@ -84,6 +93,9 @@ class _adminHomePageState extends State<adminHomePage> {
                 ),
 
               ),
+    ),
+
+
 
               Card(
 

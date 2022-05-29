@@ -6,6 +6,7 @@ import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/utils/search.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
+import 'package:masterreads/views/user/books/searchBook.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 
@@ -14,11 +15,14 @@ class BookList extends StatefulWidget {
 
   @override
   State<BookList> createState() => _BookListState();
+
 }
 
 class _BookListState extends State<BookList> {
   final userId = FirebaseAuth.instance.currentUser!;
   List bookList = [];
+  // String searchEntry='';
+  String searchEntry = '';
 
   @override
   void initState() {
@@ -53,7 +57,7 @@ class _BookListState extends State<BookList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Let's Reading !",
+                        "Let's Start Reading !",
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
@@ -90,12 +94,16 @@ class _BookListState extends State<BookList> {
                   child: Stack(
                     children: <Widget>[
                       TextField(
+
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.black,
                           fontWeight: FontWeight.w900,
                         ),
+                        onChanged: (value) {
+                          searchEntry = value;
+                        },
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(
                             left: 19,
@@ -121,7 +129,39 @@ class _BookListState extends State<BookList> {
                             color: kPrimaryColor,
                           ),
                           child: IconButton(
+<<<<<<< HEAD
                             padding: const EdgeInsets.symmetric(),
+=======
+                            padding: EdgeInsets.symmetric(),
+
+                            onPressed: () {
+                              // print("this search");
+                              // print (searchEntry);
+                             //  List item=[];
+                             // item= getBookList();
+                             //  MaterialPageRoute(
+                             //
+                             //    builder: (_) => BookDetail(
+                             //      coverUrl: bookList[index]['coverPhotoUrl'],
+                             //      title: bookList[index]['title'],
+                             //      author: bookList[index]['author'],
+                             //      price: bookList[index]['price'].toString(),
+                             //      description: bookList[index]['description'],
+                             //    ),
+                             //  ),
+                            },
+                            icon: IconButton(
+                //               onPressed: () {
+                //
+                //                 print("this search");
+                //                 print (searchEntry);
+                //
+                // searchBooks().searchSellerBooks(searchEntry, bookList);
+                //
+                //
+                //               },
+
+>>>>>>> c5ffd8b5ec0cd27fab3ff73255d40f5c3493a5cc
                             onPressed: () => showSearch(
                               context: context,
                               delegate: Search(),
@@ -131,7 +171,12 @@ class _BookListState extends State<BookList> {
                                 context: context,
                                 delegate: Search(),
                               ),
+<<<<<<< HEAD
                               icon: const Icon(
+=======
+
+                              icon: Icon(
+>>>>>>> c5ffd8b5ec0cd27fab3ff73255d40f5c3493a5cc
                                 Icons.search,
                                 size: 25,
                                 color: Colors.white,
@@ -140,7 +185,8 @@ class _BookListState extends State<BookList> {
                           ),
                         ),
                       ),
-                    ],
+                      ),
+                        ],
                   ),
                 ),
                 Container(
@@ -359,5 +405,9 @@ class _BookListState extends State<BookList> {
         ),
       ),
     );
+  }
+
+  void searchSellerBooks(String searchEntry, List bookList) {
+
   }
 }
