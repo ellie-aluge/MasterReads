@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 
 import '../../../constants/colors.dart';
+
 class searchBooks extends StatefulWidget {
   const searchBooks({Key? key}) : super(key: key);
 
@@ -9,24 +10,20 @@ class searchBooks extends StatefulWidget {
   State<searchBooks> createState() => _searchBooksState();
 
   void searchSellerBooks(String searchEntry, List bookList) {}
-
 }
 
 class _searchBooksState extends State<searchBooks> {
   @override
   Widget build(BuildContext context) {
     return Container();
-
   }
 
   Future searchSellerBooks(String searchEntry, List bookList) async {
-
     print("Author1:");
     try {
-
-
       print("Author1:");
-      child:  Container(
+      child:
+      Container(
         margin: EdgeInsets.only(
           top: 21,
         ),
@@ -36,16 +33,12 @@ class _searchBooksState extends State<searchBooks> {
             left: 25,
             right: 6,
           ),
-
           itemCount: bookList.length,
-
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-
             print(bookList[index]['author']);
-            if(searchEntry==bookList[index]['author'] )
-            {
+            if (searchEntry == bookList[index]['author']) {
               print("working");
               return GestureDetector(
                 onTap: () {
@@ -58,6 +51,7 @@ class _searchBooksState extends State<searchBooks> {
                         author: bookList[index]['author'],
                         price: bookList[index]['price'].toString(),
                         description: bookList[index]['description'],
+                        userId: bookList[index]['userId'],
                       ),
                     ),
                   );
@@ -78,10 +72,7 @@ class _searchBooksState extends State<searchBooks> {
                   ),
                 ),
               );
-            }
-
-            else
-            {
+            } else {
               print("problem");
               return GestureDetector(
                 onTap: () {
@@ -94,6 +85,7 @@ class _searchBooksState extends State<searchBooks> {
                         author: bookList[index]['author'],
                         price: bookList[index]['price'].toString(),
                         description: bookList[index]['description'],
+                        userId: bookList[index]['userId'],
                       ),
                     ),
                   );
@@ -115,8 +107,6 @@ class _searchBooksState extends State<searchBooks> {
                 ),
               );
             }
-
-
           },
         ),
       );

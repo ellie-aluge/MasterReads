@@ -15,7 +15,6 @@ class BookList extends StatefulWidget {
 
   @override
   State<BookList> createState() => _BookListState();
-
 }
 
 class _BookListState extends State<BookList> {
@@ -94,7 +93,6 @@ class _BookListState extends State<BookList> {
                   child: Stack(
                     children: <Widget>[
                       TextField(
-
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         style: const TextStyle(
                           fontSize: 12,
@@ -129,39 +127,7 @@ class _BookListState extends State<BookList> {
                             color: kPrimaryColor,
                           ),
                           child: IconButton(
-<<<<<<< HEAD
                             padding: const EdgeInsets.symmetric(),
-=======
-                            padding: EdgeInsets.symmetric(),
-
-                            onPressed: () {
-                              // print("this search");
-                              // print (searchEntry);
-                             //  List item=[];
-                             // item= getBookList();
-                             //  MaterialPageRoute(
-                             //
-                             //    builder: (_) => BookDetail(
-                             //      coverUrl: bookList[index]['coverPhotoUrl'],
-                             //      title: bookList[index]['title'],
-                             //      author: bookList[index]['author'],
-                             //      price: bookList[index]['price'].toString(),
-                             //      description: bookList[index]['description'],
-                             //    ),
-                             //  ),
-                            },
-                            icon: IconButton(
-                //               onPressed: () {
-                //
-                //                 print("this search");
-                //                 print (searchEntry);
-                //
-                // searchBooks().searchSellerBooks(searchEntry, bookList);
-                //
-                //
-                //               },
-
->>>>>>> c5ffd8b5ec0cd27fab3ff73255d40f5c3493a5cc
                             onPressed: () => showSearch(
                               context: context,
                               delegate: Search(),
@@ -171,12 +137,7 @@ class _BookListState extends State<BookList> {
                                 context: context,
                                 delegate: Search(),
                               ),
-<<<<<<< HEAD
                               icon: const Icon(
-=======
-
-                              icon: Icon(
->>>>>>> c5ffd8b5ec0cd27fab3ff73255d40f5c3493a5cc
                                 Icons.search,
                                 size: 25,
                                 color: Colors.white,
@@ -185,8 +146,7 @@ class _BookListState extends State<BookList> {
                           ),
                         ),
                       ),
-                      ),
-                        ],
+                    ],
                   ),
                 ),
                 Container(
@@ -407,7 +367,5 @@ class _BookListState extends State<BookList> {
     );
   }
 
-  void searchSellerBooks(String searchEntry, List bookList) {
-
-  }
+  void searchSellerBooks(String searchEntry, List bookList) {}
 }
