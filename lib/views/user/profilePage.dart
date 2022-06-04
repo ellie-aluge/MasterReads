@@ -7,6 +7,7 @@ import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/login/login_screen.dart';
+import 'package:masterreads/views/navigation/navigationBuyer.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/widgets/buyer/buyerWidgets.dart';
 import 'package:masterreads/widgets/seller/sellerWidgets.dart';
@@ -90,6 +91,9 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           ),
           Scaffold(
+            drawer: NavigationBuyerDrawerWidget(),
+            appBar: AppBar(backgroundColor: Colors.white70,
+            title: Text("MasterEreads")),
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Padding(
@@ -97,16 +101,16 @@ class _ProfilePageState extends State<ProfilePage>
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 38),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              context.read<AuthService>().signOut();
-                            },
-                            child: const Text("Sign Out"))
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     ElevatedButton(
+                    //         onPressed: () {
+                    //           context.read<AuthService>().signOut();
+                    //         },
+                    //         child: const Text("Sign Out"))
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 20,
                     ),

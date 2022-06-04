@@ -9,6 +9,7 @@ import 'package:masterreads/views/user/books/bookDetail.dart';
 import 'package:masterreads/views/user/books/searchBook.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
+import 'package:masterreads/views/navigation/navigationBuyer.dart';
 
 class BookList extends StatefulWidget {
   const BookList({super.key});
@@ -44,6 +45,12 @@ class _BookListState extends State<BookList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationBuyerDrawerWidget(),
+   appBar: AppBar(
+     title: Text('MasterEreads'),
+     backgroundColor: Colors.white,
+   ),
+
       body: Container(
         child: Stack(
           children: [

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/providers/books_provider.dart';
+import 'package:masterreads/providers/navigation_provider.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/UserRoleRouting/RoleRouting.dart';
 import 'package:masterreads/views/login/login_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           initialData: null,
         ),
         ChangeNotifierProvider(create: (_) => Books()),
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -5,7 +5,8 @@ import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/views/user/books/edit_book_screen/edit_book_screen.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
-
+import 'package:masterreads/views/navigation/navigationAdmin.dart';
+import 'package:masterreads/views/navigation/navigationBuyer.dart';
 class BookDetail extends StatelessWidget {
   BookDetail({
     required this.userId,
@@ -31,6 +32,12 @@ class BookDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // drawer: NavigationBuyerDrawerWidget(),
+
+      // appBar: AppBar(
+      //   title: Text('MasterEreads'),
+      //   backgroundColor: Colors.white,
+      // ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(
           left: 25,

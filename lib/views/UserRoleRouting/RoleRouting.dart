@@ -64,10 +64,11 @@ class _RoleRouting extends State<RoleRouting>  with TickerProviderStateMixin  {
   }
 
   void navigateNext(Widget route) {
-    Timer(Duration(milliseconds: 500), () {
+    Timer(Duration(milliseconds: 300), () {
 
       // Navigator.pushNamed(context, AppRoutes.routeBookDetail);
       Navigator.push(context, MaterialPageRoute(builder: (_) => route));
+
     });
   }
 

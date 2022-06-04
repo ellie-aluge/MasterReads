@@ -5,6 +5,7 @@ import 'package:masterreads/views/Admin/ListUsers.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterreads/views/navigation/navigationAdmin.dart';
 
 
 
@@ -22,8 +23,51 @@ class _adminHomePageState extends State<adminHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerWidget(),
+        // drawer:Drawer(
+        //     child:Container(
+        //         color:Colors.black26,
+        //         // child:ListView(
+        //         //   children: <Widget>[
+        //         //     const SizedBox(height:48),
+        //         //   ]
+        //         //   ,
+        //         // )
+        //         child: ListView(
+        //           // Important: Remove any padding from the ListView.
+        //           padding: EdgeInsets.zero,
+        //           children: [
+        //             const DrawerHeader(
+        //               decoration: BoxDecoration(
+        //                 color: Colors.blue,
+        //               ),
+        //               child: Text('Drawer Header'),
+        //             ),
+        //             ListTile(
+        //               title: const Text('Item 1'),
+        //               onTap: () {
+        //                 // Update the state of the app
+        //                 // ...
+        //                 // Then close the drawer
+        //                 Navigator.pop(context);
+        //               },
+        //             ),
+        //             ListTile(
+        //               title: const Text('Item 2'),
+        //               onTap: () {
+        //                 // Update the state of the app
+        //                 // ...
+        //                 // Then close the drawer
+        //                 Navigator.pop(context);
+        //               },
+        //             ),
+        //           ],
+        //         )
+        //     )
+        // ),
       appBar: AppBar(
         title: Text("Admin Panel"),
+        backgroundColor:Colors.white
       ),
     body: Stack
       (
