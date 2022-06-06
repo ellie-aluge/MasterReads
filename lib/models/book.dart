@@ -89,26 +89,19 @@ class Book {
 
   Future getSellerBooks(String sellerId) async {
     List sellerBooks = [];
-    List book = sellerBooks;
-
     try {
       await books.where('sellerId', isEqualTo: sellerId).get().then((snapshot) {
         snapshot.docs.forEach((element) {
           sellerBooks.add(element.data());
-          // sellerBooks.add({'id': element.reference.id});
         });
       });
-      print(book);
-      return book;
+      print(sellerBooks);
+      return sellerBooks;
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
-
-
-
-
 
   Future getBookList() async {
     List bookList = [];
@@ -118,6 +111,7 @@ class Book {
           bookList.add(element.data());
         });
       });
+      print(bookList);
       return bookList;
     } catch (e) {
       print(e.toString());

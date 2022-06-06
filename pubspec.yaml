@@ -75,6 +75,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^20.1.57-beta
   snap: ^2.0.0
   flutter_slider_drawer: ^2.1.1
+  get: ^4.6.5
 
 
 dev_dependencies:

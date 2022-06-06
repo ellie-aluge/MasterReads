@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:masterreads/views/user/books/bookList.dart';
+import 'package:masterreads/views/user/buyerCart.dart';
 import 'package:masterreads/views/user/profilePage.dart';
 import 'package:path/path.dart';
 import 'package:masterreads/models/navigation.dart';
@@ -11,7 +12,7 @@ import 'package:masterreads/Service/authentication.dart';
 
 
 class NavigationBuyerDrawerWidget extends StatelessWidget {
-  static final padding = EdgeInsets.symmetric(horizontal: 20);
+  static final padding = const EdgeInsets.symmetric(horizontal: 20);
   final name = 'Sarah Abs';
   final email = 'sarah@abs.com';
   final urlImage =
@@ -114,12 +115,12 @@ class NavigationBuyerDrawerWidget extends StatelessWidget {
     provider.setNavigationItem(item);
     if(item.toString()=="NavigationItem.profile")
     {
-      navigateNext(ProfilePage(), context);
+      navigateNext(const ProfilePage(), context);
     }
 
     if(item.toString()=="NavigationItem.home")
     {
-      navigateNext(BookList(), context);
+      navigateNext(const BookList(), context);
     }
 
 
@@ -130,16 +131,16 @@ class NavigationBuyerDrawerWidget extends StatelessWidget {
 
 
 
-    if(item.toString()=="NavigationItem.people")
+    if(item.toString()=="NavigationItem.cart")
     {
-      navigateNext(ProfilePage(), context);
+      navigateNext(const Cart(), context);
     }
 
 
     if(item.toString()=="NavigationItem.people")
     {
 
-      navigateNext(ProfilePage(), context);
+      navigateNext(const ProfilePage(), context);
     }
   }
 

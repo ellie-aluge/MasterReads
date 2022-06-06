@@ -46,6 +46,7 @@ class _searchBooksState extends State<searchBooks> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => BookDetail(
+                        bookId: bookList[index]['id'],
                         coverUrl: bookList[index]['coverPhotoUrl'],
                         title: bookList[index]['title'],
                         author: bookList[index]['author'],
@@ -80,6 +81,7 @@ class _searchBooksState extends State<searchBooks> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => BookDetail(
+                        bookId: bookList[index]['id'],
                         coverUrl: bookList[index]['coverPhotoUrl'],
                         title: bookList[index]['title'],
                         author: bookList[index]['author'],

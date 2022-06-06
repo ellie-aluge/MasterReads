@@ -1,14 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:masterreads/constants/colors.dart';
-import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
+import 'package:masterreads/models/bookTags.dart';
+import 'package:masterreads/viewModel/bookTagsViewModel.dart';
 import 'package:masterreads/views/user/books/edit_book_screen/edit_book_screen.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
-import 'package:masterreads/views/navigation/navigationAdmin.dart';
-import 'package:masterreads/views/navigation/navigationBuyer.dart';
+
 class BookDetail extends StatelessWidget {
-  BookDetail({
+  const BookDetail({
+    super.key,
+    required this.bookId,
     required this.userId,
     required this.coverUrl,
     required this.title,
@@ -17,16 +19,77 @@ class BookDetail extends StatelessWidget {
     required this.description,
   });
 
-  final String userId, coverUrl, title, author, description, price;
+  final String bookId, userId, coverUrl, title, author, description, price;
 
   getSellerBooks() async {
     final data = await Book().getSellerBooks(userId);
     if (data.isNotEmpty == true) {
-      print(data);
       return data;
     } else if (data.isNotEmpty == false) {
       return null;
     }
+  }
+
+  addToCartDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Add to my cart"),
+      onPressed: () async {
+        try {
+          var add = await BookTagsViewModel.addBookTags(
+            BookTags(bookId: bookId, buyerId: userId, isPurchased: false),
+          );
+          if (add != null) {
+            Navigator.of(context).pop();
+            Fluttertoast.showToast(
+              msg: "Book successfully added to your cart.",
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
+          else{
+            Navigator.of(context).pop();
+            Fluttertoast.showToast(
+              msg: "The book is already in your cart.",
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
+        } catch (e) {
+          Navigator.of(context).pop();
+          Fluttertoast.showToast(
+            msg: "Error occured. Please try again later.",
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Confirmation"),
+      content: const Text("Would you like to add this book to your cart ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Future<void> addToCart() async {
+    await BookTagsViewModel.addBookTags(
+      BookTags(bookId: bookId, buyerId: userId, isPurchased: false),
+    );
   }
 
   @override
@@ -58,6 +121,8 @@ class BookDetail extends StatelessWidget {
                       builder: (_) => EditBookScreen(),
                     ),
                   );
+                } else if (snapshot.data == null) {
+                  addToCartDialog(context);
                 }
               },
               style: ButtonStyle(
@@ -68,7 +133,7 @@ class BookDetail extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.resolveWith(
                       (states) => kPrimaryColor)),
               child: Text(
-                snapshot.data == null ? 'Add to Library' : 'Edit Book',
+                snapshot.data == null ? 'Add to cart' : 'Edit Book',
                 style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,

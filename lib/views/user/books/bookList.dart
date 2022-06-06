@@ -225,6 +225,7 @@ class _BookListState extends State<BookList> {
                             MaterialPageRoute(
                               builder: (_) => BookDetail(
                                 userId: userId.uid,
+                                bookId: bookList[index]['id'],
                                 coverUrl: bookList[index]['coverPhotoUrl'],
                                 title: bookList[index]['title'],
                                 author: bookList[index]['author'],
@@ -282,6 +283,7 @@ class _BookListState extends State<BookList> {
                           MaterialPageRoute(
                             builder: (_) => BookDetail(
                               userId: userId.uid,
+                              bookId: bookList[index]['id'],
                               coverUrl: bookList[index]['coverPhotoUrl'],
                               title: bookList[index]['title'],
                               author: bookList[index]['author'],
