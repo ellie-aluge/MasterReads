@@ -76,8 +76,12 @@ dependencies:
   snap: ^2.0.0
   flutter_slider_drawer: ^2.1.1
   get: ^4.6.5
+<<<<<<< HEAD
   timeago: ^3.2.2
   flutter_stripe: ^3.0.2
+=======
+  checkout_screen_ui: ^0.1.3
+>>>>>>> dcbe9fef7c9899741bdb3700cc307a87e0fd8d71
 
 
 dev_dependencies:
