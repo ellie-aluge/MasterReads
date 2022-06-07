@@ -8,6 +8,7 @@ import 'package:masterreads/viewModel/bookViewModel.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
 import 'package:provider/provider.dart';
+import 'package:masterreads/views/checkout/checkout_screen.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -239,7 +240,13 @@ class _CartState extends State<Cart> {
                       height: 20,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CheckoutScreen()),
+                        );
+                      },
                       style: ButtonStyle(
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
