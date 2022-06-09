@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/viewModel/bookTagsViewModel.dart';
@@ -32,7 +33,7 @@ class _CartState extends State<Cart> {
     return delBook
         .doc(id)
         .delete()
-        .then((value) => print('Book Deleted'))
+        .then((value) => print('Book Deleted Successfuly'))
         .catchError((_) => print('Something Error In Deleted Book'));
   }
 
@@ -196,6 +197,13 @@ class _CartState extends State<Cart> {
                                                       _delete(
                                                           firebaseData[index]
                                                               ['id']);
+
+                                                      Fluttertoast.showToast(
+                                                        msg:
+                                                            "Book Deleted successfully",
+                                                        toastLength:
+                                                            Toast.LENGTH_LONG,
+                                                      );
                                                     },
                                                     icon: const Icon(
                                                         Icons.remove_circle),
