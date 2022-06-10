@@ -1,14 +1,24 @@
 import 'dart:io';
 import 'package:checkout_screen_ui/checkout_page.dart';
 import 'package:flutter/material.dart';
+import 'package:masterreads/views/user/buyerCart.dart';
+import 'package:masterreads/views/user/cartVM.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
   /// REQUIRED: (If you are using native pay option)
   ///
   /// A function to handle the native pay button being clicked. This is where
   /// you would interact with your native pay api
+  ///
+
+
   Future<void> _nativePayClicked(BuildContext context) async {
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Native Pay requires setup')));
@@ -21,6 +31,7 @@ class CheckoutScreen extends StatelessWidget {
   Future<void> _cashPayClicked(BuildContext context) async {
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Cash Pay requires setup')));
+
   }
 
   @override
@@ -55,6 +66,10 @@ class CheckoutScreen extends StatelessWidget {
       print(results);
       // WARNING: you should NOT print the above out using live code
     }
+    final ShoppingCart shop= new ShoppingCart();
+    shop.getBookTags();
+    // shop.getCart();
+    List cartList=shop.sendCart();
 
     /// REQUIRED: A list of what the user is buying
     ///
@@ -65,11 +80,17 @@ class CheckoutScreen extends StatelessWidget {
     /// **NOTE:**
     /// It is recomended to have no more that 10 items when using the
     /// current version due to limits of scrollability
-    final List<PriceItem> _priceItems = [
-      PriceItem(name: 'Book A', quantity: 1, totalPriceCents: 5200),
+
+  final List<PriceItem> _priceItems = [
+      // PriceItem(name:   '${cartList[0]['name']}', quantity: 1, totalPriceCents: 5200),
       PriceItem(name: 'Book B', quantity: 1, totalPriceCents: 8599),
       PriceItem(name: 'Book C', quantity: 1, totalPriceCents: 2499),
     ];
+
+
+
+    print('length');
+    print(cartList);
 
     /// REQUIRED: A name representing the reciever of the funds from user
     ///

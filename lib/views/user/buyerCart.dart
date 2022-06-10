@@ -40,6 +40,8 @@ class _CartState extends State<Cart> {
     getCart();
   }
 
+
+
   getCart() async {
     dynamic data = await BookViewModel().getCartBooks(bookTags);
     setState(() {
@@ -47,6 +49,10 @@ class _CartState extends State<Cart> {
     });
     print(cart);
   }
+
+  sendCart() {
+    return cart;
+}
 
   isCheckoutState(bool newValue) {
     setState(() {
@@ -274,4 +280,12 @@ class _CartState extends State<Cart> {
     }
     return const LoginPage(title: 'Login UI');
   }
+
+
+
+
+}
+void talk()
+{
+  print ('hi');
 }
