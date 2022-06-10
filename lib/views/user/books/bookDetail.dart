@@ -51,8 +51,7 @@ class BookDetail extends StatelessWidget {
               msg: "Book successfully added to your cart.",
               toastLength: Toast.LENGTH_LONG,
             );
-          }
-          else{
+          } else {
             Navigator.of(context).pop();
             Fluttertoast.showToast(
               msg: "The book is already in your cart.",

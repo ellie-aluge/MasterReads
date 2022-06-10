@@ -79,7 +79,10 @@ dependencies:
   timeago: ^3.2.2
   flutter_stripe: ^3.0.2
   checkout_screen_ui: ^0.1.3
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3f72891d0c9309f05bae077447b41fed4b58a85f
 
 
 dev_dependencies:
