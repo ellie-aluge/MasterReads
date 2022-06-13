@@ -6,6 +6,8 @@ import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/viewModel/bookTagsViewModel.dart';
 import 'package:masterreads/viewModel/bookViewModel.dart';
+import 'package:masterreads/views/checkout/checkout.dart';
+import 'package:masterreads/views/checkout/makePayment.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
 import 'package:provider/provider.dart';
@@ -93,6 +95,8 @@ class _CartState extends State<Cart> {
             );
           }
           // Storing Data
+          double amount=0;
+          String bookID='';
           final List firebaseData = [];
           snapshot.data?.docs.map((DocumentSnapshot documentSnapshot) {
             Map store = documentSnapshot.data() as Map<String, dynamic>;
@@ -166,8 +170,16 @@ class _CartState extends State<Cart> {
                                         shrinkWrap: true,
                                         primary: false,
                                         itemCount: cart.length,
+
                                         itemBuilder: (context, index) {
+                                         amount= double.parse('${cart[index]['price']}');
+
+                                           bookID= '${cart[index]['id']}' ;
+                                          print("Book amount: ");
+                                          print(amount);
                                           return Container(
+
+
                                             margin: const EdgeInsets.only(
                                                 bottom: 19),
                                             height: 81,
@@ -215,6 +227,7 @@ class _CartState extends State<Cart> {
                                                         Icons.remove_circle),
                                                   ),
                                                 ),
+
                                                 Container(
                                                   height: 81,
                                                   width: 62,
@@ -304,12 +317,14 @@ class _CartState extends State<Cart> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const CheckoutScreen()),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) =>
+                              //
+                              //           const pa()),
+                              // );
+                              payment(amount, bookID);
                             },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all<

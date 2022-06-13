@@ -9,17 +9,25 @@ class CheckoutScreen extends StatefulWidget {
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
+
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+
   /// REQUIRED: (If you are using native pay option)
   ///
   /// A function to handle the native pay button being clicked. This is where
   /// you would interact with your native pay api
   ///
+  final ShoppingCart shop= new ShoppingCart();
+
 
 
   Future<void> _nativePayClicked(BuildContext context) async {
+    shop.getBookTags();
+    // shop.getCart();
+    List cartList=shop.sendCart();
+
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Native Pay requires setup')));
   }
@@ -66,10 +74,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       print(results);
       // WARNING: you should NOT print the above out using live code
     }
-    final ShoppingCart shop= new ShoppingCart();
-    shop.getBookTags();
-    // shop.getCart();
-    List cartList=shop.sendCart();
+
 
     /// REQUIRED: A list of what the user is buying
     ///
@@ -81,6 +86,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     /// It is recomended to have no more that 10 items when using the
     /// current version due to limits of scrollability
 
+
+
+
   final List<PriceItem> _priceItems = [
       // PriceItem(name:   '${cartList[0]['name']}', quantity: 1, totalPriceCents: 5200),
       PriceItem(name: 'Book B', quantity: 1, totalPriceCents: 8599),
@@ -88,9 +96,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     ];
 
 
-
-    print('length');
-    print(cartList);
+    //
+    // print('length');
+    // print(cartList);
 
     /// REQUIRED: A name representing the reciever of the funds from user
     ///
@@ -131,6 +139,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         backgroundColor: Color.fromARGB(255, 202, 72, 224),
       ),
       body: CheckoutPage(
+
         priceItems: _priceItems,
         payToName: _payToName,
         isApple: _isApple,
@@ -138,6 +147,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         onBack: _onBack,
         payBtnKey: _payBtnKey,
         displayTestData: true,
+
       ),
     );
   }
