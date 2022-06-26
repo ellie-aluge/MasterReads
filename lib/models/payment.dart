@@ -7,10 +7,11 @@ class payment {
   String? paymentid;
   String? email;
   double? amount;
-  String? status;
+  String? bookid;
 
 
-  payment({this.paymentid, this.status, this.uid, this.email, this.amount, });
+
+  payment({this.paymentid,  this.bookid, this.uid, this.email, this.amount, });
 
   // receiving data from server
   factory payment.fromMap(map) {
@@ -19,7 +20,8 @@ class payment {
       uid: map['uid'],
       email: map['email'],
       amount: map['amount'],
-      status: map['status'],
+      bookid:map['bookid'],
+
 
     );
   }
@@ -30,7 +32,8 @@ class payment {
       'uid': uid,
       'email': email,
       'amount': amount,
-      'status': status,
+      'bookid':bookid,
+
 
     };
   }

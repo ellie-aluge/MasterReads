@@ -4,22 +4,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
-import 'package:masterreads/Service/authentication.dart';
-import 'package:masterreads/views/Admin/adminHomepage.dart';
-import 'package:masterreads/views/navigation/navigationBuyer.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
 import 'package:masterreads/views/user/books/home_screen/components/library.dart';
 import 'package:masterreads/views/user/books/home_screen/components/userLibrary.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
-import 'package:masterreads/views/user/cartVM.dart';
-import 'package:provider/provider.dart';
- double cost=4;
-double amount=1;
- String bookID='';
- String id='';
- Cart cart= new Cart();
+double cost=4;
+String id='';
+Cart cart= new Cart();
 Future<void> payment(double amount, String bookID) async {
-     cost= amount;
+  cost= amount;
 
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,16 +19,13 @@ Future<void> payment(double amount, String bookID) async {
   "pk_test_51L7gEWHCNwHv6amdoazGLKNAE80S8wJcwcBLLqTpyrMyAB8UUVVTjrPRygbd89a3REo6Mwu735CVLBWYNzZ0Myuj00pClhmSwT";
   await Stripe.instance.applySettings();
   setpayment(amount, bookID);
-
-  StripePay(amount: amount, bookID: bookID);
+  runApp( StripePay(amount:amount, bookID:bookID));
 }
 
 Future<void> setpayment(double amount, String bookID) async {
-   cost= amount;
+  cost= amount;
 
-   id=bookID;
-   print(" payment function Working");
-print("THE AMOUNT");
+  id=bookID;
 
 }
 
@@ -55,33 +44,40 @@ double getpayment()  {
 double a=0;
 
 class StripePay extends StatefulWidget {
-   final double amount;
-   String bookID;
-    StripePay({Key? key, required this.amount, required this.bookID}) : super(key: key);
 
+  const StripePay( {Key? key, required this.amount, required this.bookID}) : super(key: key);
 
+  final double amount;
+  final String bookID;
   @override
 
-
-  State<StripePay> createState() => _StripePayState();
+  State<StripePay> createState() => _StripePayState(amount, bookID);
 
 }
 
 class _StripePayState extends State<StripePay> {
-  _StripePayState();
-  //
-  // double get amount => 0;
-  //
-  // String get bookID => 'null';
-
+  _StripePayState(double amount, String bookID);
 
 
   @override
-  void initState() {
-    super.initState();
-    setpayment(amount, bookID);
-    payment(amount, bookID);
+  Widget build(BuildContext context) {
+
+
+    return MaterialApp(
+      title: 'Payment',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
+      home:  PaymentPage(),
+    );
+
   }
+}
+
+class PaymentPage extends StatelessWidget {
+  PaymentPage({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,28 +116,12 @@ class _StripePayState extends State<StripePay> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment completed!')),
 
-
-          // cart.removeAt(index);
-          //
-          //
-          // _delete(
-          // firebaseData[index]
-          // ['id']);
-          //
-          // Fluttertoast.showToast(
-          // msg:
-          // "Book Deleted successfully",
-          // toastLength:
-          // Toast.LENGTH_LONG,
-          // );
-
-
         );
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(builder: (context) => eLibrary(bookid:bookID)));
 
-        } catch (e) {
+      } catch (e) {
         if (e is StripeException) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -157,15 +137,7 @@ class _StripePayState extends State<StripePay> {
     }
 
     return Scaffold(
-
-
       appBar: AppBar(
-        leading: IconButton (icon:Icon(Icons.arrow_back),
-            onPressed:()
-        {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Cart()));
-        })
-    ,
         title: const Text("Payment"),
       ),
       body: Center(
@@ -186,11 +158,7 @@ class _StripePayState extends State<StripePay> {
                   // double cost=30;
 
 
-                 String emailAddress= context
-                     .read<AuthService>()
-                 .getCurrentEmail() as String;
-
-                  await initPaymentSheet(context, email: emailAddress, amount: getpayment()*100, bookID: getID());
+                  await initPaymentSheet(context, email: "example@gmail.com", amount: getpayment()*100, bookID: getID());
 
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(

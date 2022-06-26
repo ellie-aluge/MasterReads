@@ -8,6 +8,7 @@ import 'package:masterreads/viewModel/bookTagsViewModel.dart';
 import 'package:masterreads/viewModel/bookViewModel.dart';
 import 'package:masterreads/views/checkout/checkout.dart';
 import 'package:masterreads/views/checkout/makePayment.dart';
+import 'package:masterreads/views/checkout/test.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
 import 'package:provider/provider.dart';
@@ -324,7 +325,8 @@ class _CartState extends State<Cart> {
                               //
                               //           const pa()),
                               // );
-                              payment(amount, bookID);
+                              // StripePay(amount:amount, bookID:bookID);
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => StripePay(amount: amount, bookID: bookID)));
                             },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
