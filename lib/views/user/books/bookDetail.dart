@@ -6,6 +6,7 @@ import 'package:masterreads/models/bookTags.dart';
 import 'package:masterreads/viewModel/bookTagsViewModel.dart';
 import 'package:masterreads/views/user/books/edit_book_screen/edit_book_screen.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
+import 'package:share/share.dart';
 
 class BookDetail extends StatelessWidget {
   const BookDetail({
@@ -140,6 +141,28 @@ class BookDetail extends StatelessWidget {
                     color: Colors.white),
               ),
             );
+            // ignore: dead_code
+            return TextButton(
+              onPressed: () {
+                Share.share(
+                    'check out master book https://masterreads.page.link/Sohr');
+              },
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => kPrimaryColor)),
+              child: Text(
+                snapshot.data == null ? 'Share The book' : 'Share The book',
+                style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Colors.white),
+              ),
+            );
           }),
         ),
         // TextButton(
@@ -160,6 +183,7 @@ class BookDetail extends StatelessWidget {
         //   ),
         // ),
       ),
+
       body: SafeArea(
         child: Container(
           child: CustomScrollView(
