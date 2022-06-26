@@ -597,6 +597,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  props:
+    dependency: "direct main"
+    description:
+      name: props
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   provider:
     dependency: "direct main"
     description:
