@@ -5,18 +5,25 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookTags {
-  BookTags({
-    @required this.bookId,
-    @required this.buyerId,
-    @required this.isPurchased,
+
+  String? tagID;
+   String? bookId;
+   String? buyerId;
+  bool? isPurchased;
+
+  BookTags(  {
+
+  this.bookId,
+    this.buyerId,
+    this.isPurchased,
+    this.tagID,
   });
 
-  final String? bookId;
-  final String? buyerId;
-  final bool? isPurchased;
+
 
   factory BookTags.fromMap(Map<String, dynamic> map) {
     return BookTags(
+      tagID: map['tagID'],
       bookId: map['bookId'],
       buyerId: map['buyerId'],
       isPurchased: map['isPurchased'],
@@ -28,6 +35,7 @@ class BookTags {
       bookId: map['bookId'],
       buyerId: map['buyerId'],
       isPurchased: map['isPurchased'],
+      tagID: map['tagID'],
     );
   }
 
@@ -36,6 +44,7 @@ class BookTags {
       'bookId': bookId,
       'buyerId': buyerId,
       'isPurchased': isPurchased,
+      'tagID': tagID,
     };
   }
 }

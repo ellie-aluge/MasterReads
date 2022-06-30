@@ -113,7 +113,7 @@ class AuthService {
     return (await _auth.currentUser!).uid;
   }
 
-  Future<String?> getCurrentEmail() async {
+   getCurrentEmail() async {
     return (await _auth.currentUser!).email;
   }
 

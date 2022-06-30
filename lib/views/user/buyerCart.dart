@@ -174,10 +174,9 @@ class _CartState extends State<Cart> {
 
                                         itemBuilder: (context, index) {
                                          amount= double.parse('${cart[index]['price']}');
+                                         bookID= '${cart[index]['id']}' ;
 
-                                           bookID= '${cart[index]['id']}' ;
-                                          print("Book amount: ");
-                                          print(amount);
+
                                           return Container(
 
 
