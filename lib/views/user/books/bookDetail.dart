@@ -272,6 +272,13 @@ class BookDetail extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
+                        IconButton(
+                            padding: EdgeInsets.fromLTRB(240.0, 0, 0, 0),
+                            onPressed: () {
+                              Share.share(
+                                  'check out master book https://masterreads.page.link/Sohr');
+                            },
+                            icon: const Icon(Icons.share)),
                       ],
                     ),
                   ),
