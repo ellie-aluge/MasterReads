@@ -1,13 +1,24 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
+import 'package:masterreads/Service/authentication.dart';
+import 'package:masterreads/models/bookTags.dart';
+import 'package:masterreads/views/Admin/adminHomepage.dart';
+import 'package:masterreads/views/navigation/navigationBuyer.dart';
+import 'package:masterreads/views/user/books/bookList.dart';
 import 'package:masterreads/views/user/books/home_screen/components/library.dart';
 import 'package:masterreads/views/user/books/home_screen/components/userLibrary.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
+import 'package:masterreads/views/user/cartVM.dart';
+import 'package:provider/provider.dart';
 double cost=4;
+double amount=1;
+String bookID='';
 String id='';
 Cart cart= new Cart();
 Future<void> payment(double amount, String bookID) async {
@@ -19,13 +30,17 @@ Future<void> payment(double amount, String bookID) async {
   "pk_test_51L7gEWHCNwHv6amdoazGLKNAE80S8wJcwcBLLqTpyrMyAB8UUVVTjrPRygbd89a3REo6Mwu735CVLBWYNzZ0Myuj00pClhmSwT";
   await Stripe.instance.applySettings();
   setpayment(amount, bookID);
-  runApp( StripePay(amount:amount, bookID:bookID));
+
+  StripePay(amount: amount, bookID: bookID);
 }
 
 Future<void> setpayment(double amount, String bookID) async {
   cost= amount;
 
   id=bookID;
+  print(" payment function Working");
+  print("THE AMOUNT");
+
 
 }
 
@@ -44,43 +59,37 @@ double getpayment()  {
 double a=0;
 
 class StripePay extends StatefulWidget {
-
-  const StripePay( {Key? key, required this.amount, required this.bookID}) : super(key: key);
-
   final double amount;
-  final String bookID;
+  String bookID;
+  StripePay({Key? key, required this.amount, required this.bookID}) : super(key: key);
+
+
   @override
 
-  State<StripePay> createState() => _StripePayState(amount, bookID);
+
+  State<StripePay> createState() => _StripePayState();
 
 }
 
 class _StripePayState extends State<StripePay> {
-  _StripePayState(double amount, String bookID);
+  _StripePayState();
+  //
+  // double get amount => 0;
+  //
+  // String get bookID => 'null';
+
 
 
   @override
-  Widget build(BuildContext context) {
-
-
-    return MaterialApp(
-      title: 'Payment',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home:  PaymentPage(),
-    );
-
+  void initState() {
+    super.initState();
+    setpayment(amount, bookID);
+    payment(amount, bookID);
   }
-}
-
-class PaymentPage extends StatelessWidget {
-  PaymentPage({Key? key}) : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
+
 
     Future<void> initPaymentSheet(context, {required String bookID,required String email, required double amount}) async {
       try {
@@ -99,6 +108,7 @@ class PaymentPage extends StatelessWidget {
 
         //2. initialize the payment sheet
         await Stripe.instance.initPaymentSheet(
+
           paymentSheetParameters: SetupPaymentSheetParameters(
             paymentIntentClientSecret: jsonResponse['paymentIntent'],
             merchantDisplayName: 'Flutter Stripe Store Demo',
@@ -113,8 +123,47 @@ class PaymentPage extends StatelessWidget {
         await Stripe.instance.presentPaymentSheet();
 
 
+        // String buyerID= context
+        //     .read<AuthService>()
+        //     .getCurrentEmail() as String;
+        // String bID= getID();
+        //
+        //
+        //
+        // BookTags tags= new BookTags();
+        // tags.bookId=bID;
+        // tags.buyerId=buyerID;
+        // tags.isPurchased= true;
+        //
+        // var firebaseuser = await FirebaseAuth.instance.currentUser;
+        //
+        // FirebaseFirestore.instance
+        //     .collection("bookTags")
+        //     .doc(tags.tagID)
+        //     .set(tags.toMap());
+
+
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment completed!')),
+
+          //   {this.paymentid,  this.bookid, this.uid, this.email, this.amount, });
+
+
+          // cart.removeAt(index);
+          //
+          //
+          // _delete(
+          // firebaseData[index]
+          // ['id']);
+          //
+          // Fluttertoast.showToast(
+          // msg:
+          // "Book Deleted successfully",
+          // toastLength:
+          // Toast.LENGTH_LONG,
+          // );
+
 
         );
         // Navigator.push(
@@ -137,7 +186,15 @@ class PaymentPage extends StatelessWidget {
     }
 
     return Scaffold(
+
+
       appBar: AppBar(
+        leading: IconButton (icon:Icon(Icons.arrow_back),
+            onPressed:()
+            {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Cart()));
+            })
+        ,
         title: const Text("Payment"),
       ),
       body: Center(
@@ -146,31 +203,16 @@ class PaymentPage extends StatelessWidget {
           children: [
             TextButton(
                 onPressed: () async {
-                  // lets assume that product price is 5.99 usd
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => const PaypalPayment(
-                  //         amount: 5.99,
-                  //         currency: 'USD',
-                  //       ),
-                  //     ));
-                  // double cost=30;
 
 
-                  await initPaymentSheet(context, email: "example@gmail.com", amount: getpayment()*100, bookID: getID());
+                  String emailAddress= context
+                      .read<AuthService>()
+                      .getCurrentEmail() as String;
 
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (BuildContext context) => payment()
-                  //     // PaypalPayment(
-                  //     //   onFinish: (number) async {
-                  //     //     // payment done
-                  //     //     print('order id: ' + number);
-                  //     //   },
-                  //     // ),
-                  //   ),
-                  // );
+
+                  await initPaymentSheet(context, bookID: getID(),email: emailAddress, amount: getpayment()*100);
+
+
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -200,18 +242,7 @@ class PaymentPage extends StatelessWidget {
 
             ),
 
-            // ElevatedButton(
-            //   style: ButtonStyle(
-            //     foregroundColor: MaterialStateProperty.all<Color>(Colors.purple.shade400),
-            //   ),
-            //   onPressed: () async {
-            //     await initPaymentSheet(context, email: "example@gmail.com", amount: 200000);
-            //   },
-            //   child: const Text(
-            //     'pay',
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            // )
+
           ],
         ),
       ),

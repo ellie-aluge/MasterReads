@@ -1,10 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
+// import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:masterreads/Service/authentication.dart';
+import 'package:masterreads/models/bookTags.dart';
+import 'package:masterreads/models/payment.dart';
 import 'package:masterreads/views/Admin/adminHomepage.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
 import 'package:masterreads/views/user/books/bookList.dart';
@@ -15,7 +20,7 @@ import 'package:masterreads/views/user/cartVM.dart';
 import 'package:provider/provider.dart';
  double cost=4;
 double amount=1;
- String bookID='';
+ String bookID='HI';
  String id='';
  Cart cart= new Cart();
 Future<void> payment(double amount, String bookID) async {
@@ -26,7 +31,7 @@ Future<void> payment(double amount, String bookID) async {
   Stripe.publishableKey =
   "pk_test_51L7gEWHCNwHv6amdoazGLKNAE80S8wJcwcBLLqTpyrMyAB8UUVVTjrPRygbd89a3REo6Mwu735CVLBWYNzZ0Myuj00pClhmSwT";
   await Stripe.instance.applySettings();
-  setpayment(amount, bookID);
+  // setpayment(amount, bookID);
 
   StripePay(amount: amount, bookID: bookID);
 }
@@ -36,7 +41,8 @@ Future<void> setpayment(double amount, String bookID) async {
 
    id=bookID;
    print(" payment function Working");
-print("THE AMOUNT");
+print(id);
+
 
 }
 
@@ -56,8 +62,8 @@ double a=0;
 
 class StripePay extends StatefulWidget {
    final double amount;
-   String bookID;
-    StripePay({Key? key, required this.amount, required this.bookID}) : super(key: key);
+   final String bookID;
+    const StripePay({Key? key, required this.amount, required this.bookID}) : super(key: key);
 
 
   @override
@@ -79,8 +85,9 @@ class _StripePayState extends State<StripePay> {
   @override
   void initState() {
     super.initState();
-    setpayment(amount, bookID);
-    payment(amount, bookID);
+
+    setpayment(amount, widget.bookID);
+    payment(amount, widget.bookID);
   }
 
   @override
@@ -89,6 +96,7 @@ class _StripePayState extends State<StripePay> {
     Future<void> initPaymentSheet(context, {required String bookID,required String email, required double amount}) async {
       try {
         // 1. create payment intent on the server
+        print("init oay working");
         final response = await http.post(
             Uri.parse(
                 'https://us-central1-masterreads-c40b2.cloudfunctions.net/stripePaymentIntentRequest'),
@@ -116,9 +124,61 @@ class _StripePayState extends State<StripePay> {
 
         await Stripe.instance.presentPaymentSheet();
 
+        //
+        // String buyerID= context
+        //     .read<AuthService>()
+        //     .getCurrentEmail() as String;
+        String bID= getID();
 
+
+
+        BookTags tags= new BookTags();
+        tags.bookId=bID;
+        tags.buyerId='001';
+        tags.isPurchased= true;
+
+        // var firebaseuser = await FirebaseAuth.instance.currentUser;
+
+
+        FirebaseFirestore.instance
+            .collection("bookTags")
+            .doc(tags.tagID)
+            .set(tags.toMap());
+
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+
+
+        Payment newPayment = Payment();
+
+        // writing all the values
+        // newPayment.paymentid=  FirebaseFirestore.instance
+        //     .collection("payment")
+        //     .id;
+        newPayment.amount= amount/100;
+        newPayment.bookid= getID();
+        newPayment.uid='001';
+
+
+        var firebaseuser = await FirebaseAuth.instance.currentUser;
+        // await firebaseFirestore
+        FirebaseFirestore.instance
+            .collection("payment")
+            .doc(newPayment.paymentid)
+            .set(newPayment.toMap());
+
+
+
+        // BookTags({
+        // @required this.bookId,
+        // @required this.buyerId,
+        // @required this.isPurchased,
+        // });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment completed!')),
+
+          //   {this.paymentid,  this.bookid, this.uid, this.email, this.amount, });
 
 
           // cart.removeAt(index);
@@ -174,35 +234,15 @@ class _StripePayState extends State<StripePay> {
           children: [
             TextButton(
                 onPressed: () async {
-                  // lets assume that product price is 5.99 usd
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => const PaypalPayment(
-                  //         amount: 5.99,
-                  //         currency: 'USD',
-                  //       ),
-                  //     ));
-                  // double cost=30;
 
 
-                 String emailAddress= context
-                     .read<AuthService>()
-                 .getCurrentEmail() as String;
 
-                  await initPaymentSheet(context, email: emailAddress, amount: getpayment()*100, bookID: getID());
 
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (BuildContext context) => payment()
-                  //     // PaypalPayment(
-                  //     //   onFinish: (number) async {
-                  //     //     // payment done
-                  //     //     print('order id: ' + number);
-                  //     //   },
-                  //     // ),
-                  //   ),
-                  // );
+
+                 String emailAddress=  'alugeelinor@gmail.com';
+                 print(emailAddress);
+                  await initPaymentSheet(context, bookID: getID(),email: emailAddress, amount: getpayment()*100 );
+
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -232,18 +272,7 @@ class _StripePayState extends State<StripePay> {
 
             ),
 
-            // ElevatedButton(
-            //   style: ButtonStyle(
-            //     foregroundColor: MaterialStateProperty.all<Color>(Colors.purple.shade400),
-            //   ),
-            //   onPressed: () async {
-            //     await initPaymentSheet(context, email: "example@gmail.com", amount: 200000);
-            //   },
-            //   child: const Text(
-            //     'pay',
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            // )
+
           ],
         ),
       ),
