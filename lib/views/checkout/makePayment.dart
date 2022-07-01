@@ -10,14 +10,10 @@ import 'package:http/http.dart' as http;
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/models/bookTags.dart';
 import 'package:masterreads/models/payment.dart';
-import 'package:masterreads/views/Admin/adminHomepage.dart';
-import 'package:masterreads/views/navigation/navigationBuyer.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
-import 'package:masterreads/views/user/books/home_screen/components/library.dart';
-import 'package:masterreads/views/user/books/home_screen/components/userLibrary.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
-import 'package:masterreads/views/user/cartVM.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
+import 'makePayment.dart';
  double cost=4;
 double amount=1;
  String bookID='HI';
@@ -25,6 +21,7 @@ double amount=1;
  Cart cart= new Cart();
 Future<void> payment(double amount, String bookID) async {
      cost= amount;
+
 
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -156,15 +153,26 @@ class _StripePayState extends State<StripePay> {
         // newPayment.paymentid=  FirebaseFirestore.instance
         //     .collection("payment")
         //     .id;
-        newPayment.amount= amount/100;
-        newPayment.bookid= getID();
-        newPayment.uid='001';
+        var now = new DateTime.now();
+        var formatter = new DateFormat('yyyy-MM-dd');
+        String formattedDate = formatter.format(now);
 
 
         var firebaseuser = await FirebaseAuth.instance.currentUser;
+        newPayment.amount= amount/100;
+        newPayment.bookid= getID();
+        newPayment.uid=firebaseuser!.uid;
+        newPayment.date= formattedDate;
+
+     // 2016-01-25
+        final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+
         // await firebaseFirestore
         FirebaseFirestore.instance
             .collection("payment")
+
             .doc(newPayment.paymentid)
             .set(newPayment.toMap());
 
@@ -177,23 +185,6 @@ class _StripePayState extends State<StripePay> {
         // });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment completed!')),
-
-          //   {this.paymentid,  this.bookid, this.uid, this.email, this.amount, });
-
-
-          // cart.removeAt(index);
-          //
-          //
-          // _delete(
-          // firebaseData[index]
-          // ['id']);
-          //
-          // Fluttertoast.showToast(
-          // msg:
-          // "Book Deleted successfully",
-          // toastLength:
-          // Toast.LENGTH_LONG,
-          // );
 
 
         );
