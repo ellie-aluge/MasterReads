@@ -12,21 +12,21 @@ import 'package:masterreads/models/bookTags.dart';
 import 'package:masterreads/models/payment.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'makePayment.dart';
- double cost=4;
-double amount=1;
- String bookID='HI';
- String id='';
- Cart cart= new Cart();
+
+double cost = 4;
+double amount = 1;
+String bookID = 'HI';
+String id = '';
+Cart cart = new Cart();
 Future<void> payment(double amount, String bookID) async {
-     cost= amount;
-
-
+  cost = amount;
 
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
-  "pk_test_51L7gEWHCNwHv6amdoazGLKNAE80S8wJcwcBLLqTpyrMyAB8UUVVTjrPRygbd89a3REo6Mwu735CVLBWYNzZ0Myuj00pClhmSwT";
+      "pk_test_51L7gEWHCNwHv6amdoazGLKNAE80S8wJcwcBLLqTpyrMyAB8UUVVTjrPRygbd89a3REo6Mwu735CVLBWYNzZ0Myuj00pClhmSwT";
   await Stripe.instance.applySettings();
   // setpayment(amount, bookID);
 
@@ -34,46 +34,37 @@ Future<void> payment(double amount, String bookID) async {
 }
 
 Future<void> setpayment(double amount, String bookID) async {
-   cost= amount;
+  cost = amount;
 
-   id=bookID;
-   print(" payment function Working");
-print(id);
-
-
+  id = bookID;
+  print(" payment function Working");
+  print(id);
 }
 
-String getID()  {
+String getID() {
   return id;
-
-
 }
 
-double getpayment()  {
+double getpayment() {
   print(cost);
 
   return cost;
-
 }
-double a=0;
+
+double a = 0;
 
 class StripePay extends StatefulWidget {
-   final double amount;
-   final String bookID;
-    const StripePay({Key? key, required this.amount, required this.bookID}) : super(key: key);
-
+  final double amount;
+  final String bookID;
+  const StripePay({Key? key, required this.amount, required this.bookID})
+      : super(key: key);
 
   @override
-
-
   State<StripePay> createState() => _StripePayState();
-
 }
 
 class _StripePayState extends State<StripePay> {
   _StripePayState();
-
-
 
   @override
   void initState() {
@@ -85,8 +76,10 @@ class _StripePayState extends State<StripePay> {
 
   @override
   Widget build(BuildContext context) {
-
-    Future<void> initPaymentSheet(context, {required String bookID,required String email, required double amount}) async {
+    Future<void> initPaymentSheet(context,
+        {required String bookID,
+        required String email,
+        required double amount}) async {
       try {
         // 1. create payment intent on the server
         print("init oay working");
@@ -97,7 +90,6 @@ class _StripePayState extends State<StripePay> {
               'email': email,
               'amount': amount.toString(),
             });
-
 
         final jsonResponse = jsonDecode(response.body);
         log(jsonResponse.toString());
@@ -121,27 +113,21 @@ class _StripePayState extends State<StripePay> {
         // String buyerID= context
         //     .read<AuthService>()
         //     .getCurrentEmail() as String;
-        String bID= getID();
+        String bID = getID();
 
-
-
-        BookTags tags= new BookTags();
-        tags.bookId=bID;
-        tags.buyerId='001';
-        tags.isPurchased= true;
+        BookTags tags = new BookTags();
+        tags.bookId = bID;
+        tags.buyerId = '001';
+        tags.isPurchased = true;
 
         // var firebaseuser = await FirebaseAuth.instance.currentUser;
-
 
         FirebaseFirestore.instance
             .collection("bookTags")
             .doc(tags.tagID)
             .set(tags.toMap());
 
-
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-
 
         Payment newPayment = Payment();
 
@@ -153,26 +139,20 @@ class _StripePayState extends State<StripePay> {
         var formatter = new DateFormat('yyyy-MM-dd');
         String formattedDate = formatter.format(now);
 
-
         var firebaseuser = await FirebaseAuth.instance.currentUser;
-        newPayment.amount= amount/100;
-        newPayment.bookid= getID();
-        newPayment.uid=firebaseuser!.uid;
-        newPayment.date= formattedDate;
+        newPayment.amount = amount / 100;
+        newPayment.bookid = getID();
+        newPayment.uid = firebaseuser!.uid;
+        newPayment.date = formattedDate;
 
-     // 2016-01-25
+        // 2016-01-25
         final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
 
         // await firebaseFirestore
         FirebaseFirestore.instance
             .collection("payment")
-
             .doc(newPayment.paymentid)
             .set(newPayment.toMap());
-
-
 
         // BookTags({
         // @required this.bookId,
@@ -181,14 +161,12 @@ class _StripePayState extends State<StripePay> {
         // });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment completed!')),
-
-
         );
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(builder: (context) => eLibrary(bookid:bookID)));
 
-        } catch (e) {
+      } catch (e) {
         if (e is StripeException) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -204,15 +182,13 @@ class _StripePayState extends State<StripePay> {
     }
 
     return Scaffold(
-
-
       appBar: AppBar(
-        leading: IconButton (icon:Icon(Icons.arrow_back),
-            onPressed:()
-        {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Cart()));
-        })
-    ,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (_) => Cart()));
+            }),
         title: const Text("Payment"),
       ),
       body: Center(
@@ -221,22 +197,19 @@ class _StripePayState extends State<StripePay> {
           children: [
             TextButton(
                 onPressed: () async {
+                  final Uri _url = Uri.parse(
+                      'https://buy.stripe.com/test_eVaaFIcWD3wK5Ec001');
+                  if (!await launchUrl(_url)) throw 'Could not launch $_url';
 
-
-
-
-
-                 String emailAddress=  'alugeelinor@gmail.com';
-                 print(emailAddress);
-                  await initPaymentSheet(context, bookID: getID(),email: emailAddress, amount: getpayment()*100 );
-
+                  //  String emailAddress=  'alugeelinor@gmail.com';
+                  //  print(emailAddress);
+                  //   await initPaymentSheet(context, bookID: getID(),email: emailAddress, amount: getpayment()*100 );
                 },
                 style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.resolveWith((states) => Colors.purple.shade600),
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => Colors.purple.shade600),
                 ),
-
-                child:Container(
+                child: Container(
                   width: 300,
                   height: 40,
                   child: Row(
@@ -255,11 +228,7 @@ class _StripePayState extends State<StripePay> {
                       )
                     ],
                   ),
-                )
-
-            ),
-
-
+                )),
           ],
         ),
       ),
