@@ -72,10 +72,6 @@ class StripePay extends StatefulWidget {
 
 class _StripePayState extends State<StripePay> {
   _StripePayState();
-  //
-  // double get amount => 0;
-  //
-  // String get bookID => 'null';
 
 
 
