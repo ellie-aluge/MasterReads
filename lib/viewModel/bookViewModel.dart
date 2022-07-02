@@ -28,4 +28,26 @@ class BookViewModel {
       print(e.toString());
     }
   }
+
+
+  Future getBookInfo (String bookid) async
+  {
+    List bookList = [];
+    try {
+      await books
+          .where('id', isEqualTo: bookid)
+
+          .get()
+          .then((snapshot) {
+        snapshot.docs.forEach((element) async {
+          bookList.add(element.data());
+        });
+      });
+      return bookList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+
+  }
 }

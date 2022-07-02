@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:masterreads/views/Library/library.dart';
 import 'package:masterreads/views/user/books/bookList.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
 import 'package:masterreads/views/user/profilePage.dart';
@@ -56,7 +57,7 @@ class NavigationBuyerDrawerWidget extends StatelessWidget {
                     buildMenuItem(
                       context,
                       item: NavigationItem.books,
-                      text: 'All books',
+                      text: 'Library',
                       icon: Icons.book,
                     ),
 
@@ -67,6 +68,14 @@ class NavigationBuyerDrawerWidget extends StatelessWidget {
                       item: NavigationItem.cart,
                       text: 'Shopping Cart',
                       icon: Icons.library_add,
+                    ),
+
+                    const SizedBox(height: 24),
+                    buildMenuItem(
+                      context,
+                      item: NavigationItem.history,
+                      text: 'History',
+                      icon: Icons.history,
                     ),
 
                     const SizedBox(height: 24),
@@ -129,6 +138,12 @@ class NavigationBuyerDrawerWidget extends StatelessWidget {
       context.read<AuthService>().signOut();
     }
 
+
+
+    if(item.toString()=="NavigationItem.history")
+    {
+      navigateNext( eLibrary(), context);
+    }
 
 
     if(item.toString()=="NavigationItem.cart")
