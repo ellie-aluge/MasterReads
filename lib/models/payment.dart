@@ -40,25 +40,6 @@ class Payment {
 
   }
 
-// Future getUserPayments (String buyerId) async
-//   // {
-//   //   List paymentList = [];
-//   //   try {
-//   //     await payments
-//   //         .where('buyerId', isEqualTo: userId)
-//   //
-//   //         .get()
-//   //         .then((snapshot) {
-//   //       snapshot.docs.forEach((element) async {
-//   //         paymentList.add(element.data());
-//   //       });
-//   //     });
-//   //     return paymentList;
-//   //   } catch (e) {
-//   //     print(e.toString());
-//   //     return null;
-//   //   }
-//   //
-//   // }
-//
+
+
  }

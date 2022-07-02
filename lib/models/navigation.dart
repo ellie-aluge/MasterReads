@@ -10,5 +10,6 @@ enum NavigationItem {
   books,
   profile,
   signout,
+  history,
   home,
 }

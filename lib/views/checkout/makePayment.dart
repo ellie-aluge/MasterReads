@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:masterreads/Service/authentication.dart';
 import 'package:masterreads/models/bookTags.dart';
 import 'package:masterreads/models/payment.dart';
+import 'package:masterreads/views/Library/library.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,7 +19,7 @@ import 'makePayment.dart';
 
 double cost = 4;
 double amount = 1;
-String bookID = 'HI';
+
 String id = '';
 Cart cart = new Cart();
 Future<void> payment(double amount, String bookID) async {
@@ -162,9 +163,9 @@ class _StripePayState extends State<StripePay> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment completed!')),
         );
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => eLibrary(bookid:bookID)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => eLibrary()));
 
       } catch (e) {
         if (e is StripeException) {
