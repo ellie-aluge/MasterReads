@@ -21,8 +21,8 @@ class BookDetail extends StatelessWidget {
 
   final String bookId, userId, coverUrl, title, author, description, price;
 
-  getSellerBooks() async {
-    final data = await Book().getSellerBooks(userId);
+  getBookDetail() async {
+    final data = await Book().getBookDetail(userId, bookId);
     if (data.isNotEmpty == true) {
       return data;
     } else if (data.isNotEmpty == false) {
@@ -110,7 +110,7 @@ class BookDetail extends StatelessWidget {
         height: 49,
         color: Colors.transparent,
         child: FutureBuilder(
-          future: getSellerBooks(),
+          future: getBookDetail(),
           builder: ((context, snapshot) {
             return TextButton(
               onPressed: () {
