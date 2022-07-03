@@ -110,50 +110,6 @@ class _StripePayState extends State<StripePay> {
 
         await Stripe.instance.presentPaymentSheet();
 
-        //
-        // String buyerID= context
-        //     .read<AuthService>()
-        //     .getCurrentEmail() as String;
-        String bID = getID();
-
-        BookTags tags = new BookTags();
-        tags.bookId = bID;
-        tags.buyerId = '001';
-        tags.isPurchased = true;
-
-        // var firebaseuser = await FirebaseAuth.instance.currentUser;
-
-        FirebaseFirestore.instance
-            .collection("bookTags")
-            .doc(tags.tagID)
-            .set(tags.toMap());
-
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-        Payment newPayment = Payment();
-
-        // writing all the values
-        // newPayment.paymentid=  FirebaseFirestore.instance
-        //     .collection("payment")
-        //     .id;
-        var now = new DateTime.now();
-        var formatter = new DateFormat('yyyy-MM-dd');
-        String formattedDate = formatter.format(now);
-
-        var firebaseuser = await FirebaseAuth.instance.currentUser;
-        newPayment.amount = amount / 100;
-        newPayment.bookid = getID();
-        newPayment.uid = firebaseuser!.uid;
-        newPayment.date = formattedDate;
-
-        // 2016-01-25
-        final FirebaseAuth _auth = FirebaseAuth.instance;
-
-        // await firebaseFirestore
-        FirebaseFirestore.instance
-            .collection("payment")
-            .doc(newPayment.paymentid)
-            .set(newPayment.toMap());
 
         // BookTags({
         // @required this.bookId,
@@ -200,11 +156,47 @@ class _StripePayState extends State<StripePay> {
                 onPressed: () async {
                   final Uri _url = Uri.parse(
                       'https://buy.stripe.com/test_eVaaFIcWD3wK5Ec001');
+                  String bID = getID();
+
+                  BookTags tags = new BookTags();
+                  tags.bookId = bID;
+                  tags.buyerId = '001';
+                  tags.isPurchased = true;
+
+
+
+
+
+                  Payment newPayment = Payment();
+
+
+                  var now = new DateTime.now();
+                  var formatter = new DateFormat('yyyy-MM-dd');
+                  String formattedDate = formatter.format(now);
+
+                print(now.month);
+
+                  var firebaseuser = await FirebaseAuth.instance.currentUser;
+                  newPayment.amount = amount / 100;
+                  newPayment.bookid = getID();
+                  newPayment.uid = firebaseuser!.uid;
+                  newPayment.name= firebaseuser.displayName;
+                  newPayment.date = formattedDate;
+
+                  // 2016-01-25
+                  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+                  // await firebaseFirestore
+                  FirebaseFirestore.instance
+                      .collection("payment")
+                      .doc(newPayment.paymentid)
+                      .set(newPayment.toMap());
+
                   if (!await launchUrl(_url)) throw 'Could not launch $_url';
 
-                  //  String emailAddress=  'alugeelinor@gmail.com';
-                  //  print(emailAddress);
-                  //   await initPaymentSheet(context, bookID: getID(),email: emailAddress, amount: getpayment()*100 );
+                   // String emailAddress=  'alugeelinor@gmail.com';
+                   // print(emailAddress);
+                   //  await initPaymentSheet(context, bookID: getID(),email: emailAddress, amount: getpayment()*100 );
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith(

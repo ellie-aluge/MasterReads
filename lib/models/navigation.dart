@@ -12,4 +12,5 @@ enum NavigationItem {
   signout,
   history,
   home,
+  sales,
 }

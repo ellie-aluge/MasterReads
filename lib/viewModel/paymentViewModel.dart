@@ -33,6 +33,28 @@ class PaymentModel{
     }
 
   }
+
+
+
+  Future getAllPayments () async
+  {
+    List paymentList = [];
+    try {
+      await payment
+
+          .get()
+          .then((snapshot) {
+        snapshot.docs.forEach((element) async {
+          paymentList.add(element.data());
+        });
+      });
+      return paymentList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+
+  }
 }
 
 

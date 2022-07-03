@@ -64,6 +64,7 @@ class UserModelState extends State<UserModel> {
 
 
           return Card(
+
             child: ListTile(
               title: Text(userModels[index]['firstName']+ '\t'+
                 (userModels[index]['secondName']),),

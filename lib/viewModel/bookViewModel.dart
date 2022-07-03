@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/state_manager.dart';
+import 'package:get/utils.dart';
 
 class BookViewModel {
   final CollectionReference books =
@@ -43,6 +45,36 @@ class BookViewModel {
           bookList.add(element.data());
         });
       });
+      // print("booklist in bookview");
+      // print(bookList.toString());
+      return bookList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+
+  }
+
+  Future getSellerPay (String bookid, String sellerId) async
+  {
+    List bookList = [];
+    try {
+      await books
+          .where('id', isEqualTo: bookid)
+          .where('sellerId', isEqualTo:sellerId)
+
+          .get()
+          .then((snapshot) {
+        snapshot.docs.forEach((element) async {
+
+          // print("booklist in bookview");
+         // print(element);
+          bookList.add(element.data());
+
+        });
+      });
+
+
       return bookList;
     } catch (e) {
       print(e.toString());

@@ -15,6 +15,8 @@ import 'package:snap/snap.dart';
 import 'package:masterreads/screens/book_details_screen/book_details_screen.dart';
 import 'package:masterreads/views/user/books/bookDetail.dart';
 
+import '../user/books/sellerHome.dart';
+
 class RoleRouting extends StatefulWidget {
   const RoleRouting({Key? key}) : super(key: key);
   @override
@@ -67,7 +69,11 @@ class _RoleRouting extends State<RoleRouting> with TickerProviderStateMixin {
       // role=snap[role];
     });
 
-    if (role == 'buyer' || role == "seller") {
+    if(role=="seller")
+      {
+        navigateNext(sellerHome());
+      }
+   else  if (role == 'buyer') {
       navigateNext(BookList());
     } else if (role == 'admin') {
       navigateNext(adminHomePage());

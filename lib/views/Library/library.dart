@@ -56,19 +56,18 @@ class _eLibraryState extends State<eLibrary> {
 
   getBooks() async
   {
-    for (int i = 0; i < paymentList.length; i++) {
-      id = paymentList[i]['bookid'];
-      print("id: ");
-      print(id);
-      dynamic data = await BookViewModel().getBookInfo(id);
-      if (data == null) {
-        print(failedRetrieveData);
-      } else {
-        setState(() {
-          bookList = data;
-        });
-      }
+    dynamic data;
+    for(int i=0; i<paymentList.length; i++)
+      {
+        id = paymentList[i]['bookid'];
+         data = await BookViewModel().getBookInfo(id);
+         // print("data: ");
+         // print(data);
+         bookList.add(data);
+
     }
+
+
     print("booklist");
     print(bookList);
   }
@@ -122,21 +121,21 @@ class _eLibraryState extends State<eLibrary> {
 
                     return Container(
 
-                        child:ListView.builder(
-
-                            padding: const EdgeInsets.only(
-                              top: 25,
-                              right: 25,
-                              left: 0,
-                            ),
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: bookList.length,
-
-                            itemBuilder: (context, counter) {
-
-                      return Container(
+                      //   child:ListView.builder(
+                      //
+                      //       padding: const EdgeInsets.only(
+                      //         top: 25,
+                      //         right: 25,
+                      //         left: 0,
+                      //       ),
+                      //       physics: const BouncingScrollPhysics(),
+                      //       shrinkWrap: true,
+                      //       primary: false,
+                      //       itemCount: bookList.length,
+                      //
+                      //       itemBuilder: (context, counter) {
+                      //
+                      // return Container(
 
 
 
@@ -162,37 +161,37 @@ class _eLibraryState extends State<eLibrary> {
                           height: 101,
                           width: 102,
 
-                          decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(
-                                5),
-                            image: DecorationImage(
-                              // height: 400,
-                              // width: 250,
-                                image: NetworkImage(
-                                  '${bookList[counter]['coverPhotoUrl']}',
-
-
-
-                                ),
-
-
-                                fit: BoxFit.fill),
-
-                          ),
-                           child: Text(
-
-                          '${bookList[counter]['id']}',
-
-                             // 'Title',
-                             style: const TextStyle(
-                               fontFamily: 'Poppins',
-                               fontSize: 15,
-                               fontWeight:
-                               FontWeight.w500,
-                               color: Colors.black,
-                             ),
-                           ),
+                          // decoration: BoxDecoration(
+                          //   borderRadius:
+                          //   BorderRadius.circular(
+                          //       5),
+                          //   image: DecorationImage(
+                          //     // height: 400,
+                          //     // width: 250,
+                          //       image: NetworkImage(
+                          //         '${bookList[index]['coverPhotoUrl']}',
+                          //
+                          //
+                          //
+                          //       ),
+                          //
+                          //
+                          //       fit: BoxFit.fill),
+                          //
+                          // ),
+                          //  child: Text(
+                          //
+                          // '${bookList[index]['id']}',
+                          //
+                          //    // 'Title',
+                          //    style: const TextStyle(
+                          //      fontFamily: 'Poppins',
+                          //      fontSize: 15,
+                          //      fontWeight:
+                          //      FontWeight.w500,
+                          //      color: Colors.black,
+                          //    ),
+                          //  ),
 
                           ),
 
@@ -241,7 +240,7 @@ class _eLibraryState extends State<eLibrary> {
                       );
 
 
-                    }));
+                    // }));
                   }
 
               )
