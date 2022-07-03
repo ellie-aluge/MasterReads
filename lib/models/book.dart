@@ -73,6 +73,7 @@ class Book {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': FirebaseFirestore.instance.collection('books').doc().id,
       'sellerId': sellerId,
       'title': title,
       'price': price,
@@ -113,6 +114,22 @@ class Book {
       });
       print(bookList);
       return bookList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future getBookDetail(String sellerId, String bookId) async {
+    List sellerBooks = [];
+    try {
+      await books.where('sellerId', isEqualTo: sellerId).where('id', isEqualTo: bookId).get().then((snapshot) {
+        snapshot.docs.forEach((element) {
+          sellerBooks.add(element.data());
+        });
+      });
+      print(sellerBooks);
+      return sellerBooks;
     } catch (e) {
       print(e.toString());
       return null;
