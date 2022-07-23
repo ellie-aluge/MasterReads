@@ -1,8 +1,9 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:masterreads/models/users.dart';
+import 'bookTags.dart';
 
 class Book {
   final CollectionReference books =
@@ -104,6 +105,16 @@ class Book {
     }
   }
 
+  Future getUserBooks() async {
+    List user = await eUserModel().getCurrentUser();
+    if (user[0]['role'] == 'buyer') {
+      return getLibrary(user[0]['uid']);
+    } else if (user[0]['role'] == 'seller') {
+      return getSellerBooks(user[0]['uid']);
+    }
+    return null;
+  }
+
   Future getBookList() async {
     List bookList = [];
     try {
@@ -123,13 +134,35 @@ class Book {
   Future getBookDetail(String sellerId, String bookId) async {
     List sellerBooks = [];
     try {
-      await books.where('sellerId', isEqualTo: sellerId).where('id', isEqualTo: bookId).get().then((snapshot) {
+      await books
+          .where('sellerId', isEqualTo: sellerId)
+          .where('id', isEqualTo: bookId)
+          .get()
+          .then((snapshot) {
         snapshot.docs.forEach((element) {
           sellerBooks.add(element.data());
         });
       });
-      print(sellerBooks);
       return sellerBooks;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future getLibrary(String buyerId) async {
+    List userLibrary = [];
+
+    dynamic data = await BookTags().getPurchasedBook(buyerId);
+
+    try {
+      await books.where('id', whereIn: data).get().then((snapshot) {
+        snapshot.docs.forEach((element) {
+          userLibrary.add(element.data());
+        });
+      });
+
+      return userLibrary;
     } catch (e) {
       print(e.toString());
       return null;

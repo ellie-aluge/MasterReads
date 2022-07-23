@@ -4,12 +4,12 @@ import 'package:masterreads/views/home/welcomePage.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:masterreads/views/signUp/register_screen.dart';
 import 'package:masterreads/views/forgotPassword/forgot_password.dart';
-import 'package:masterreads/views/user/books/add_book_screen/add_book_screen.dart';
-import 'package:masterreads/views/user/books/bookDetail.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
+import 'package:masterreads/views/books/add_book_screen/add_book_screen.dart';
+import 'package:masterreads/views/books/bookDetail.dart';
+import 'package:masterreads/views/books/bookList.dart';
 import 'package:masterreads/screens/all_book_screen/all_book_screen.dart';
 import 'package:masterreads/screens/book_details_screen/book_details_screen.dart';
-import 'package:masterreads/views/user/books/home_screen/home_screen.dart';
+import 'package:masterreads/views/books/home_screen/home_screen.dart';
 import 'package:masterreads/screens/pdf_screen.dart';
 import '../views/user/profilePage.dart';
 

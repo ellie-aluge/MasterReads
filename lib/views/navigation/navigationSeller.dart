@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:masterreads/views/Library/index.dart';
 import 'package:masterreads/views/Library/library.dart';
 import 'package:masterreads/views/Sales/salesView.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
+import 'package:masterreads/views/books/bookList.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
 import 'package:masterreads/views/user/profilePage.dart';
 import 'package:path/path.dart';
@@ -11,7 +12,7 @@ import 'package:masterreads/providers/navigation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:masterreads/Service/authentication.dart';
 
-import '../user/books/sellerHome.dart';
+import '../books/sellerHome.dart';
 
 
 
@@ -164,6 +165,9 @@ class NavigationSellerDrawerWidget extends StatelessWidget {
     {
 
       navigateNext(const ProfilePage(), context);
+    }
+    if (item.toString() == "NavigationItem.books") {
+      navigateNext(const Library(), context);
     }
   }
 

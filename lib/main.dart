@@ -8,7 +8,7 @@ import 'package:masterreads/providers/navigation_provider.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/UserRoleRouting/RoleRouting.dart';
 import 'package:masterreads/views/login/login_screen.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
+import 'package:masterreads/views/books/bookList.dart';
 import 'package:masterreads/views/user/profilePage.dart';
 import 'package:provider/provider.dart';
 

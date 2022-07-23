@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:masterreads/views/user/books/bookDetail.dart';
+import 'package:masterreads/views/books/bookDetail.dart';
 
-import '../../../constants/colors.dart';
+import '../../constants/colors.dart';
 
 class searchBooks extends StatefulWidget {
   const searchBooks({Key? key}) : super(key: key);

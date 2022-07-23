@@ -24,7 +24,8 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   final buyerId = FirebaseAuth.instance.currentUser!;
   bool isCheckout = false;
-  List bookTags = [], cart = [];
+  List bookTags = [], cart = [], selectedIndex = [];
+
   // Getting Student all Records
   final Stream<QuerySnapshot> bookRecords =
       FirebaseFirestore.instance.collection('bookTags').snapshots();
@@ -58,8 +59,6 @@ class _CartState extends State<Cart> {
     getCart();
   }
 
-
-
   getCart() async {
     dynamic data = await BookViewModel().getCartBooks(bookTags);
     setState(() {
@@ -70,13 +69,22 @@ class _CartState extends State<Cart> {
 
   sendCart() {
     return cart;
-}
+  }
 
-  isCheckoutState(bool newValue) {
+  isCheckoutState(bool newValue, int index) {
     setState(() {
       isCheckout = newValue;
+      selectedIndex[index] = index;
     });
   }
+
+  Widget buildCheckBox() => Checkbox(
+      value: isCheckout,
+      onChanged: (value) {
+        setState(() {
+          this.isCheckout = value!;
+        });
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +104,8 @@ class _CartState extends State<Cart> {
             );
           }
           // Storing Data
-          double amount=0;
-          String bookID='';
+          double amount = 0;
+          String bookID = '';
           final List firebaseData = [];
           snapshot.data?.docs.map((DocumentSnapshot documentSnapshot) {
             Map store = documentSnapshot.data() as Map<String, dynamic>;
@@ -171,15 +179,12 @@ class _CartState extends State<Cart> {
                                         shrinkWrap: true,
                                         primary: false,
                                         itemCount: cart.length,
-
                                         itemBuilder: (context, index) {
-                                         amount= double.parse('${cart[index]['price']}');
-                                         bookID= '${cart[index]['id']}' ;
-
+                                          amount = double.parse(
+                                              '${cart[index]['price']}');
+                                          bookID = '${cart[index]['id']}';
 
                                           return Container(
-
-
                                             margin: const EdgeInsets.only(
                                                 bottom: 19),
                                             height: 81,
@@ -196,13 +201,7 @@ class _CartState extends State<Cart> {
                                                     right: 0,
                                                     left: 0,
                                                   ),
-                                                  child: Checkbox(
-                                                    value: isCheckout,
-                                                    onChanged: (newValue) {
-                                                      isCheckoutState(
-                                                          newValue!);
-                                                    },
-                                                  ),
+                                                  child: buildCheckBox(),
                                                 ),
                                                 Padding(
                                                   padding:
@@ -227,7 +226,6 @@ class _CartState extends State<Cart> {
                                                         Icons.remove_circle),
                                                   ),
                                                 ),
-
                                                 Container(
                                                   height: 81,
                                                   width: 62,
@@ -325,7 +323,11 @@ class _CartState extends State<Cart> {
                               //           const pa()),
                               // );
                               // StripePay(amount:amount, bookID:bookID);
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => StripePay(amount: amount, bookID: bookID)));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => StripePay(
+                                          amount: amount, bookID: bookID)));
                             },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
@@ -356,12 +358,8 @@ class _CartState extends State<Cart> {
           return const LoginPage(title: 'Login UI');
         });
   }
-
-
-
-
 }
-void talk()
-{
-  print ('hi');
+
+void talk() {
+  print('hi');
 }

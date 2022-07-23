@@ -6,9 +6,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:masterreads/views/Admin/adminHomepage.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
-import 'package:masterreads/views/user/books/home_screen/components/library.dart';
-import 'package:masterreads/views/user/books/home_screen/components/userLibrary.dart';
+import 'package:masterreads/views/books/bookList.dart';
+import 'package:masterreads/views/books/home_screen/components/library.dart';
+import 'package:masterreads/views/books/home_screen/components/userLibrary.dart';
 import 'package:masterreads/views/user/buyerCart.dart';
 import 'package:masterreads/views/user/cartVM.dart';
 class Testing extends StatefulWidget {
