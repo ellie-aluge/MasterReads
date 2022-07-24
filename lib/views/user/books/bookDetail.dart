@@ -255,7 +255,7 @@ class BookDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          price == '0' ? '' : '\$',
+                          price == '0' ? '' : '\MYR',
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
@@ -264,7 +264,7 @@ class BookDetail extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          price == '0' ? 'FREE' : '${price}',
+                          price == '0' ? 'FREE' : '${double.parse(price).toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 32,

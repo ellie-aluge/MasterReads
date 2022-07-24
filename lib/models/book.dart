@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class Book {
   final CollectionReference books =
-      FirebaseFirestore.instance.collection('books');
+  FirebaseFirestore.instance.collection('books');
 
   Book({
     this.sellerId,
@@ -73,7 +73,10 @@ class Book {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': FirebaseFirestore.instance.collection('books').doc().id,
+      'id': FirebaseFirestore.instance
+          .collection('books')
+          .doc()
+          .id,
       'sellerId': sellerId,
       'title': title,
       'price': price,
@@ -123,13 +126,31 @@ class Book {
   Future getBookDetail(String sellerId, String bookId) async {
     List sellerBooks = [];
     try {
-      await books.where('sellerId', isEqualTo: sellerId).where('id', isEqualTo: bookId).get().then((snapshot) {
+      await books.where('sellerId', isEqualTo: sellerId).where(
+          'id', isEqualTo: bookId).get().then((snapshot) {
         snapshot.docs.forEach((element) {
           sellerBooks.add(element.data());
         });
       });
       print(sellerBooks);
       return sellerBooks;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future getNonVerifiedBookList() async
+  {
+    List bookList = [];
+    try {
+      await books.where('isVerified', isEqualTo: false).get().then((snapshot) {
+        snapshot.docs.forEach((element) {
+          bookList.add(element.data());
+        });
+      });
+      // print(bookList);
+      return bookList;
     } catch (e) {
       print(e.toString());
       return null;

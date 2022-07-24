@@ -173,7 +173,7 @@ class _CartState extends State<Cart> {
                                         itemCount: cart.length,
 
                                         itemBuilder: (context, index) {
-                                         amount= double.parse('${cart[index]['price']}');
+                                        double amount= double.parse('${cart[index]['price']}');
                                          bookID= '${cart[index]['id']}' ;
 
 
@@ -285,8 +285,9 @@ class _CartState extends State<Cart> {
                                                     Text(
                                                       cart[index]['price'] == 0
                                                           ? 'FREE'
-                                                          : '\$'
-                                                              '${cart[index]['price']}',
+                                                          : '\MYR'
+                                                            '${cart[index]['price'].toStringAsFixed(2)}',
+
                                                       // 'Price',
                                                       style: const TextStyle(
                                                         fontFamily: 'Poppins',
