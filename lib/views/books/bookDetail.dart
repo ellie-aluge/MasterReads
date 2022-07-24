@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:masterreads/constants/colors.dart';
+import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/models/bookTags.dart';
 import 'package:masterreads/viewModel/bookTagsViewModel.dart';
-import 'package:masterreads/views/user/books/edit_book_screen/edit_book_screen.dart';
+import 'package:masterreads/viewModel/reviewsViewModel.dart';
+import 'package:masterreads/views/books/book_detail_widget/description.dart';
+import 'package:masterreads/views/books/book_detail_widget/review.dart';
+import 'package:masterreads/views/books/book_detail_widget/similar.dart';
+import 'package:masterreads/views/books/edit_book_screen/edit_book_screen.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 import 'package:share/share.dart';
-
-class BookDetail extends StatelessWidget {
+String price='0';
+class BookDetail extends StatefulWidget {
   const BookDetail({
     super.key,
     required this.bookId,
@@ -22,8 +27,28 @@ class BookDetail extends StatelessWidget {
 
   final String bookId, userId, coverUrl, title, author, description, price;
 
+  @override
+  State<BookDetail> createState() => _BookDetailState();
+}
+
+class _BookDetailState extends State<BookDetail>
+    with SingleTickerProviderStateMixin {
+  int _tabSelected = 0;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tab.length, vsync: this);
+    _tabController.addListener(() {
+      setState(() {
+        _tabSelected = _tabController.index;
+      });
+    });
+  }
+
   getBookDetail() async {
-    final data = await Book().getBookDetail(userId, bookId);
+    final data = await Book().getBookDetail(widget.userId, widget.bookId);
     if (data.isNotEmpty == true) {
       return data;
     } else if (data.isNotEmpty == false) {
@@ -44,7 +69,10 @@ class BookDetail extends StatelessWidget {
       onPressed: () async {
         try {
           var add = await BookTagsViewModel.addBookTags(
-            BookTags(bookId: bookId, buyerId: userId, isPurchased: false),
+            BookTags(
+                bookId: widget.bookId,
+                buyerId: widget.userId,
+                isPurchased: false),
           );
           if (add != null) {
             Navigator.of(context).pop();
@@ -88,19 +116,35 @@ class BookDetail extends StatelessWidget {
 
   Future<void> addToCart() async {
     await BookTagsViewModel.addBookTags(
-      BookTags(bookId: bookId, buyerId: userId, isPurchased: false),
+      BookTags(
+          bookId: widget.bookId, buyerId: widget.userId, isPurchased: false),
     );
   }
+
+  List<Widget> tab = [
+    Tab(
+      child: Container(
+        margin: const EdgeInsets.only(right: 39),
+        child: const Text('Description'),
+      ),
+    ),
+    Tab(
+      child: Container(
+        margin: const EdgeInsets.only(right: 39),
+        child: const Text('Reviews'),
+      ),
+    ),
+    Tab(
+      child: Container(
+        margin: const EdgeInsets.only(right: 39),
+        child: const Text('Similar'),
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // drawer: NavigationBuyerDrawerWidget(),
-
-      // appBar: AppBar(
-      //   title: Text('MasterEreads'),
-      //   backgroundColor: Colors.white,
-      // ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(
           left: 25,
@@ -204,7 +248,7 @@ class BookDetail extends StatelessWidget {
                           height: 250,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(coverUrl),
+                              image: NetworkImage(widget.coverUrl),
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -222,7 +266,7 @@ class BookDetail extends StatelessWidget {
                       left: 25,
                     ),
                     child: Text(
-                      title,
+                      widget.title,
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 27,
@@ -237,7 +281,7 @@ class BookDetail extends StatelessWidget {
                       left: 25,
                     ),
                     child: Text(
-                      author,
+                      widget.author,
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14,
@@ -255,7 +299,11 @@ class BookDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          price == '0' ? '' : '\MYR',
+
+                          // price == '0' ? '' : '\MYR',
+
+                          widget.price == '0' ? '' : '\$',
+
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
@@ -264,7 +312,11 @@ class BookDetail extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          price == '0' ? 'FREE' : '${double.parse(price).toStringAsFixed(2)}',
+
+                          // price == '0' ? 'FREE' : '${double.parse(price).toStringAsFixed(2)}',
+
+                          widget.price == '0' ? 'FREE' : '${double.parse(widget.price).toStringAsFixed(2)}',
+
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 32,
@@ -283,17 +335,12 @@ class BookDetail extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 28,
-                    margin: const EdgeInsets.only(
-                      top: 23,
-                      bottom: 36,
-                    ),
+                    height: MediaQuery.of(context).size.height,
                     padding: const EdgeInsets.only(
                       left: 25,
                     ),
-                    child: DefaultTabController(
-                      length: 3,
-                      child: TabBar(
+                    child: Scaffold(
+                      appBar: TabBar(
                         labelPadding: const EdgeInsets.all(0),
                         indicatorPadding: const EdgeInsets.all(0),
                         isScrollable: true,
@@ -312,43 +359,17 @@ class BookDetail extends StatelessWidget {
                           width: 30,
                           color: Colors.black,
                         ),
-                        tabs: [
-                          Tab(
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 39),
-                              child: const Text('Description'),
-                            ),
-                          ),
-                          Tab(
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 39),
-                              child: const Text('Reviews'),
-                            ),
-                          ),
-                          Tab(
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 39),
-                              child: const Text('Similar'),
-                            ),
-                          ),
-                        ],
+                        controller: _tabController,
+                        onTap: ((index) {}),
+                        tabs: tab,
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 25,
-                      right: 25,
-                      bottom: 25,
-                    ),
-                    child: Text(
-                      description,
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey,
-                        letterSpacing: 1.5,
+                      body: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          Description(widget: widget),
+                          Review(widget: widget),
+                          Similar(widget: widget),
+                        ],
                       ),
                     ),
                   ),

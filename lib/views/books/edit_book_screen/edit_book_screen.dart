@@ -12,10 +12,10 @@ import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/styles.dart';
 import 'package:masterreads/utils/connectivity.dart';
 import 'package:path/path.dart' as path;
-import 'package:masterreads/views/user/books/edit_book_screen/components/description_field.dart';
-import 'package:masterreads/views/user/books/edit_book_screen/components/general_field_decoration.dart';
-import 'package:masterreads/views/user/books/edit_book_screen/components/select_cover_photo.dart';
-import 'package:masterreads/views/user/books/edit_book_screen/components/select_pdf.dart';
+import 'package:masterreads/views/books/edit_book_screen/components/description_field.dart';
+import 'package:masterreads/views/books/edit_book_screen/components/general_field_decoration.dart';
+import 'package:masterreads/views/books/edit_book_screen/components/select_cover_photo.dart';
+import 'package:masterreads/views/books/edit_book_screen/components/select_pdf.dart';
 import 'components/select_cover_photo.dart';
 import 'components/select_pdf.dart';
 

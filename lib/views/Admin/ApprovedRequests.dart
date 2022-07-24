@@ -5,10 +5,12 @@ import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/utils/search.dart';
 import 'package:masterreads/views/Admin/adminBookDetails.dart';
-import 'package:masterreads/views/user/books/bookDetail.dart';
-import 'package:masterreads/views/user/books/searchBook.dart';
+// import 'package:masterreads/views/user/books/bookDetail.dart';
+// import 'package:masterreads/views/user/books/searchBook.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
+
+import '../books/bookDetail.dart';
 class ApprovedRequests extends StatefulWidget {
   const ApprovedRequests({Key? key}) : super(key: key);
 
@@ -71,6 +73,7 @@ class _ApprovedRequestsState extends State<ApprovedRequests> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) =>
+
 
                                       BookDetail(
                                         coverUrl: bookList[index]['coverPhotoUrl'],

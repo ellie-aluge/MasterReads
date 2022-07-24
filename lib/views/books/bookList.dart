@@ -5,22 +5,20 @@ import 'package:masterreads/constants/colors.dart';
 import 'package:masterreads/constants/text.dart';
 import 'package:masterreads/models/book.dart';
 import 'package:masterreads/utils/search.dart';
-import 'package:masterreads/views/user/books/bookDetail.dart';
-import 'package:masterreads/views/user/books/searchBook.dart';
+import 'package:masterreads/views/books/bookDetail.dart';
+import 'package:masterreads/views/books/searchBook.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
 import 'package:masterreads/widgets/customTabIndicator.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
 
-import '../../navigation/navigationSeller.dart';
-
-class sellerHome extends StatefulWidget {
-  const sellerHome({super.key});
+class BookList extends StatefulWidget {
+  const BookList({super.key});
 
   @override
-  State<sellerHome> createState() => _sellerHomeState();
+  State<BookList> createState() => _BookListState();
 }
 
-class _sellerHomeState extends State<sellerHome> {
+class _BookListState extends State<BookList> {
   final userId = FirebaseAuth.instance.currentUser!;
   List bookList = [];
   // String searchEntry='';
@@ -47,11 +45,11 @@ class _sellerHomeState extends State<sellerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationSellerDrawerWidget(),
-      appBar: AppBar(
-        title: Text('MasterEreads'),
-        backgroundColor: Colors.white,
-      ),
+      drawer: NavigationBuyerDrawerWidget(),
+   appBar: AppBar(
+     title: Text('MasterEreads'),
+     backgroundColor: Colors.white,
+   ),
 
       body: Container(
         child: Stack(

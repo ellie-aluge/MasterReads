@@ -8,7 +8,7 @@ import 'package:masterreads/models/book.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/login/login_screen.dart';
 import 'package:masterreads/views/navigation/navigationBuyer.dart';
-import 'package:masterreads/views/user/books/bookDetail.dart';
+import 'package:masterreads/views/books/bookDetail.dart';
 import 'package:masterreads/widgets/buyer/buyerWidgets.dart';
 import 'package:masterreads/widgets/seller/sellerWidgets.dart';
 import 'package:masterreads/widgets/bottomBar.dart';
@@ -24,23 +24,22 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage>
     with SingleTickerProviderStateMixin {
   late String id, email, firstName, secondName, role;
-  List sellerBooks = [];
+  List userBooks = [];
 
   @override
   void initState() {
     super.initState();
-    getSellerBooks();
+    getUserBooks();
   }
 
-  getSellerBooks() async {
-    final sellerId = FirebaseAuth.instance.currentUser!;
-    dynamic data = await Book().getSellerBooks(sellerId.uid);
+  getUserBooks() async {
+    dynamic data = await Book().getUserBooks();
 
     if (data == null) {
       print(failedRetrieveData);
     } else {
       setState(() {
-        sellerBooks = data;
+        userBooks = data;
       });
     }
   }
@@ -92,8 +91,8 @@ class _ProfilePageState extends State<ProfilePage>
           ),
           Scaffold(
             drawer: NavigationBuyerDrawerWidget(),
-            appBar: AppBar(backgroundColor: Colors.white70,
-            title: Text("MasterEreads")),
+            appBar: AppBar(
+                backgroundColor: Colors.white70, title: Text("MasterEreads")),
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Padding(
@@ -101,16 +100,6 @@ class _ProfilePageState extends State<ProfilePage>
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 38),
                 child: Column(
                   children: [
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     ElevatedButton(
-                    //         onPressed: () {
-                    //           context.read<AuthService>().signOut();
-                    //         },
-                    //         child: const Text("Sign Out"))
-                    //   ],
-                    // ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -182,10 +171,9 @@ class _ProfilePageState extends State<ProfilePage>
                                             return const Text(loadingData);
                                           }
                                           if ('$role' == 'seller') {
-                                            return sellerBooksCount(
-                                                sellerBooks);
+                                            return sellerBooksCount(userBooks);
                                           } else if ('$role' == 'buyer') {
-                                            return buyerBooksCount();
+                                            return buyerBooksCount(userBooks);
                                           }
                                           return Container();
                                         },
@@ -274,29 +262,34 @@ class _ProfilePageState extends State<ProfilePage>
                                   physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   primary: false,
-                                  itemCount: sellerBooks.length,
+                                  itemCount: userBooks.length,
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => BookDetail(
-                                              userId: id,
-                                              bookId: sellerBooks[index]['id'],
-                                              coverUrl: sellerBooks[index]
-                                                  ['coverPhotoUrl'],
-                                              title: sellerBooks[index]
-                                                  ['title'],
-                                              author: sellerBooks[index]
-                                                  ['author'],
-                                              price: sellerBooks[index]['price']
-                                                  .toString(),
-                                              description: sellerBooks[index]
-                                                  ['description'],
-                                            ),
-                                          ),
-                                        );
+                                        role == 'seller'
+                                            ? Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => BookDetail(
+                                                    userId: id,
+                                                    bookId: userBooks[index]
+                                                        ['id'],
+                                                    coverUrl: userBooks[index]
+                                                        ['coverPhotoUrl'],
+                                                    title: userBooks[index]
+                                                        ['title'],
+                                                    author: userBooks[index]
+                                                        ['author'],
+                                                    price: userBooks[index]
+                                                            ['price']
+                                                        .toString(),
+                                                    description:
+                                                        userBooks[index]
+                                                            ['description'],
+                                                  ),
+                                                ),
+                                              )
+                                            : null;
                                       },
                                       child: Container(
                                         margin:
@@ -316,7 +309,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                     BorderRadius.circular(5),
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                      '${sellerBooks[index]['coverPhotoUrl']}',
+                                                      '${userBooks[index]['coverPhotoUrl']}',
                                                     ),
                                                     fit: BoxFit.fill),
                                                 color: kPrimaryColor,
@@ -332,7 +325,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  '${sellerBooks[index]['title'].length > 27 ? sellerBooks[index]['title'].substring(0, 27) + '...' : sellerBooks[index]['title']}',
+                                                  '${userBooks[index]['title'].length > 27 ? userBooks[index]['title'].substring(0, 27) + '...' : userBooks[index]['title']}',
                                                   style: const TextStyle(
                                                     fontFamily: 'Poppins',
                                                     fontSize: 16,
@@ -344,7 +337,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                   height: 5,
                                                 ),
                                                 Text(
-                                                  '${sellerBooks[index]['author']}',
+                                                  '${userBooks[index]['author']}',
                                                   style: const TextStyle(
                                                     fontFamily: 'Poppins',
                                                     fontSize: 10,
@@ -355,19 +348,23 @@ class _ProfilePageState extends State<ProfilePage>
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
-                                                Text(
-                                                  sellerBooks[index]['price'] ==
-                                                          0
-                                                      ? 'FREE'
-                                                      : '\$'
-                                                          '${sellerBooks[index]['price']}',
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
+                                                role == 'seller'
+                                                    ? Text(
+                                                        userBooks[index]
+                                                                    ['price'] ==
+                                                                0
+                                                            ? 'FREE'
+                                                            : '\$'
+                                                                '${userBooks[index]['price']}',
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black,
+                                                        ),
+                                                      )
+                                                    : Container(),
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
@@ -382,7 +379,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                     }
                                                     if (role == 'seller') {
                                                       return Text(
-                                                        '${sellerBooks[index]['isVerified']}' ==
+                                                        '${userBooks[index]['isVerified']}' ==
                                                                 'true'
                                                             ? 'Published'
                                                             : 'On Review',
@@ -392,7 +389,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           color:
-                                                              '${sellerBooks[index]['isVerified']}' ==
+                                                              '${userBooks[index]['isVerified']}' ==
                                                                       'true'
                                                                   ? Colors.green
                                                                   : Colors.red,

@@ -8,14 +8,14 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:masterreads/routes/routes.dart';
 import 'package:masterreads/views/Admin/adminHomepage.dart';
-import 'package:masterreads/views/user/books/bookList.dart';
+import 'package:masterreads/views/books/bookList.dart';
 import 'package:masterreads/Service/authentication.dart';
 import 'package:provider/provider.dart';
 import 'package:snap/snap.dart';
 import 'package:masterreads/screens/book_details_screen/book_details_screen.dart';
-import 'package:masterreads/views/user/books/bookDetail.dart';
+import 'package:masterreads/views/books/bookDetail.dart';
 
-import '../user/books/sellerHome.dart';
+import '../books/sellerHome.dart';
 
 class RoleRouting extends StatefulWidget {
   const RoleRouting({Key? key}) : super(key: key);
